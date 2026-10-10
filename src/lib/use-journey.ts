@@ -58,7 +58,12 @@ export function useJourney() {
     });
   }, []);
 
-  const start = useCallback((profile: Profile) => update(() => initial(profile)), [update]);
+  const start = useCallback((profile: Profile) => {
+    // Save immediately: callers navigate right after starting a journey.
+    const next = initial(profile);
+    save(next);
+    setJourney(next);
+  }, []);
 
   const accept = useCallback(
     (id: string) => update((j) => (j.accepted.includes(id) ? j : { ...j, accepted: [...j.accepted, id] })),
