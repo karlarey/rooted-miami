@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo } from "react";
 import { IntentChart } from "@/components/journey/IntentChart";
 import { PayCard } from "@/components/journey/PayCard";
@@ -44,15 +43,6 @@ export default function JourneyPage() {
           </p>
         </div>
         <nav className="flex gap-3 text-sm">
-          <Link href="/stages" className="text-muted hover:text-coral">
-            Stages
-          </Link>
-          <Link href="/negotiate" className="text-muted hover:text-coral">
-            Know your number
-          </Link>
-          <Link href="/sharing" className="text-muted hover:text-coral">
-            What companies see
-          </Link>
           <button onClick={reset} className="text-muted hover:text-coral">
             Reset demo
           </button>

@@ -41,14 +41,7 @@ export default function StagesPage() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 pb-16 pt-6 sm:pt-10">
-      <Link
-        href="/journey"
-        className="inline-flex items-center gap-1 text-sm font-medium text-teal underline-offset-2 hover:underline"
-      >
-        <span aria-hidden>←</span> Back to your journey
-      </Link>
-
-      <header className="mt-6">
+      <header>
         <p className="font-mono text-xs font-semibold uppercase tracking-widest text-coral">Your stages</p>
         <h1 className="mt-2 text-3xl font-bold leading-tight text-ink sm:text-4xl">From newcomer to Miamian</h1>
         <p className="mt-3 text-base text-muted">

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { seniorityLabels, stackLabels, type Seniority, type Stack } from "@/data/pay";
@@ -187,10 +186,7 @@ function SharingForm() {
 export default function SharingPage() {
   return (
     <main className="mx-auto max-w-xl px-4 py-8">
-      <Link href="/journey" className="text-sm text-muted hover:text-coral">
-        ← Your journey
-      </Link>
-      <h1 className="mt-3 text-2xl font-bold">What companies see</h1>
+      <h1 className="text-2xl font-bold">What companies see</h1>
       <p className="mt-1 text-muted">
         Miami companies can reach you directly on Rooted instead of LinkedIn. You decide if, and what they see.
       </p>
