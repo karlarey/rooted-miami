@@ -7,17 +7,26 @@ import { useJourney } from "@/lib/use-journey";
 import type { Profile } from "@/lib/types";
 import { AnswerBar, type Answer } from "./answer-bar";
 import { MyBubble, PanaAvatar, PanaBubble, TypingBubble } from "./bubbles";
+import { ImportConfirm, ImportOffer, type ImportSuccess } from "./linkedin-import";
 import { BuildingPackage, PackageReveal } from "./package-reveal";
 import {
+  applyImport,
   buildProfile,
   closingLines,
+  importFoundLines,
+  importOfferLines,
+  importSummary,
   introLines,
   line,
   nextStepIndex,
   steps,
   type Draft,
+  type ImportedFields,
   type Line,
 } from "./script";
+
+/** "import": El Pana offers the LinkedIn shortcut. "confirm": did I get that right? "chat": the questions. */
+type Phase = "import" | "confirm" | "chat";
 
 interface Message {
   from: "pana" | "me";
@@ -37,14 +46,13 @@ export function OnboardingChat({ initialName }: { initialName?: string }) {
   const [draft, setDraft] = useState<Draft>(() => (initialName ? { name: initialName } : {}));
   const [stepIdx, setStepIdx] = useState(() => nextStepIndex(0, draft));
   const [messages, setMessages] = useState<Message[]>([]);
-  const [queue, setQueue] = useState<string[]>(() => [
-    ...introLines(initialName),
-    ...steps[stepIdx].say.map((l) => line(l, draft)),
-  ]);
+  const [phase, setPhase] = useState<Phase>("import");
+  const [imported, setImported] = useState<ImportedFields | null>(null);
+  const [queue, setQueue] = useState<string[]>(() => [...introLines(initialName), ...importOfferLines]);
   const [profile, setProfile] = useState<Profile | null>(null);
 
   const typing = queue.length > 0;
-  const building = stepIdx === DONE && !typing && !profile;
+  const building = phase === "chat" && stepIdx === DONE && !typing && !profile;
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Deliver El Pana's queued texts one at a time, with a typing pause.
@@ -115,12 +123,46 @@ export function OnboardingChat({ initialName }: { initialName?: string }) {
     setQueue(lines);
   };
 
+  /** Leave the import phase and continue with whichever questions are still open. */
+  const continueToQuestions = (next: Draft, mine: string, lead: string[]) => {
+    const at = nextStepIndex(0, next);
+    setMessages((m) => [...m, { from: "me", text: mine }]);
+    setDraft(next);
+    setStepIdx(at);
+    setPhase("chat");
+    setQueue([...lead, ...(at === DONE ? closingLines(next) : steps[at].say.map((l) => line(l, next)))]);
+  };
+
+  const skipImport = () =>
+    continueToQuestions(draft, "Answer the questions instead", ["No problem, let's do it the classic way."]);
+
+  const onImported = (r: ImportSuccess) => {
+    if (!importSummary(r.fields)) {
+      continueToQuestions(draft, r.sent, ["Hmm, I couldn't make much of that one. No worries, I'll just ask you instead."]);
+      return;
+    }
+    setMessages((m) => [...m, { from: "me", text: r.sent }]);
+    setImported(r.fields);
+    setPhase("confirm");
+    setQueue(importFoundLines(r.fields));
+  };
+
+  const confirmImport = (fields: ImportedFields, corrected: boolean) => {
+    const next = applyImport(draft, fields);
+    const summary = importSummary(fields);
+    continueToQuestions(next, corrected ? (summary ? `Actually: ${summary}` : "Let me just answer") : "Yep, that's me", [
+      corrected ? "Thanks for fixing that 🙏" : "¡Dale! 🙌",
+      "I'll skip what I already know. Just the personal stuff now: the part LinkedIn can't tell me.",
+    ]);
+  };
+
   const progress = useMemo(() => {
+    if (phase !== "chat") return 0;
     if (stepIdx === DONE) return 100;
     const visible = steps.filter((s) => !s.when || s.when(draft));
     const at = visible.indexOf(steps[stepIdx]);
     return Math.round((Math.max(at, 0) / visible.length) * 100);
-  }, [stepIdx, draft]);
+  }, [phase, stepIdx, draft]);
 
   if (profile) {
     return (
@@ -138,7 +180,7 @@ export function OnboardingChat({ initialName }: { initialName?: string }) {
     );
   }
 
-  const step = stepIdx === DONE ? null : steps[stepIdx];
+  const step = phase !== "chat" || stepIdx === DONE ? null : steps[stepIdx];
 
   return (
     <Shell>
@@ -180,9 +222,11 @@ export function OnboardingChat({ initialName }: { initialName?: string }) {
         <div ref={bottomRef} className="h-2" />
       </div>
 
-      {step && !typing && (
+      {!typing && (phase !== "chat" || step) && (
         <div className="sticky bottom-0 border-t border-line bg-bg/95 px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur">
-          <AnswerBar key={step.id} step={step} onAnswer={answer} />
+          {phase === "import" && <ImportOffer onImported={onImported} onSkip={skipImport} />}
+          {phase === "confirm" && imported && <ImportConfirm fields={imported} onConfirm={confirmImport} />}
+          {phase === "chat" && step && <AnswerBar key={step.id} step={step} onAnswer={answer} />}
         </div>
       )}
     </Shell>
