@@ -13,9 +13,43 @@
 
 ## Core insight
 
-People don't stay in a city for its amenities. They stay because **they belong** and **people need them there.**
+Miami will never be cheap. Neither is New York, and people stay there anyway, for two reasons: **opportunity** (there's always a next job) and **belonging** ("I'm a New Yorker"). Miami is missing both for tech newcomers. We can't control affordability, so Rooted builds the two things we can.
 
-We give newcomers to Miami a **welcome package** on arrival: a community that stays even as people come and go, a purpose that outlasts life's changes, and an identity: *"I'm a Miamian."*
+Why engineers leave, in order (see [research](research/why-engineers-leave.md)): no next job in Miami, pay vs. cost, the 2021 boom faded, a thin engineering community, remote workers with no ties, and daily life (traffic, heat, hurricanes, insurance) settling the decision.
+
+## Strategy: a two-sided platform
+
+```
+        ENGINEERS                                   COMPANIES
+  Stay for the experience               Come to Miami because the talent is here
+  (community · purpose · identity)        and get staffed with the best engineers
+              │                                         ▲
+              └──── rooted, committed talent pool ──────┘
+              ▲                                         │
+              └────── more jobs = more reasons to stay ─┘
+```
+
+| | Engineers | Companies |
+|---|---|---|
+| **Problem** | No roots, no next job, so they leave | Can't find senior talent in Miami; relocated hires leave |
+| **Rooted gives** | The experience: welcome package, side quests, El Pana, community, purpose | Talent access (a rooted, committed engineer pool) + retention for the people they relocate |
+| **Pays?** | Free | Yes: hiring access + retention packages (the business model) |
+| **Partners** | FIU, MDC, UM, nonprofits | Beacon Council, Talent Bridge Miami, employers |
+
+**How Rooted brings jobs here**
+| Lever | How it works |
+|---|---|
+| Talent signal | Aggregated, opt-in talent map ("1,200 senior engineers rooted here, by stack") that the Beacon Council / Talent Bridge Miami use to recruit companies |
+| Hidden job network | Rituals and mentor cohorts become warm referrals |
+| Keep remote jobs local | Match remote workers with remote-first companies that hire people living in Miami |
+| Founder path (Grove) | Connect to Miami accelerators and funders; founders hire mentees |
+| Employers pay for retention | Companies that relocate engineers pay Rooted to keep them; replacing an engineer costs far more |
+
+**Trust rule:** engineers opt in to being visible to companies, and the experience never feels like a recruiting funnel. Belonging comes first; jobs come through it.
+
+## The engineer experience
+
+We give newcomers to Miami a **welcome package** on arrival: a community that stays even as people come and go, a purpose that outlasts life's changes, an identity (*"I'm a Miamian"*), and a career path here.
 
 ## The welcome package
 
@@ -24,7 +58,8 @@ We give newcomers to Miami a **welcome package** on arrival: a community that st
 | 🤝 **Community** | Matched to **recurring** local rituals near home: tennis (Crandon Park, public courts), pickleball, padel, run clubs, group rides, beach volleyball, paddleboarding, rec soccer, salsa, dominoes. Mixed locals + newcomers. |
 | 🎓 **Purpose** | **Path A:** a designed mentorship program (2 hrs/month × 6 months with FIU / MDC / UM students). **Path B:** nonprofit matching by cause and skill (education, climate, community, skills-based volunteering). |
 | 🌴 **Identity** | Welcomed in by Hosts who came before; later becomes a Host. |
-| 🧭 **Practical start** | Neighborhood fit, transit (Metromover, Metrorail, Brightline, Freebee, Citi Bike, trolleys), cost and flood reality. |
+| 💼 **Career** | A map of Miami tech companies by stack and seniority, warm intros through your community, senior peer circles, the founder path. |
+| 🧭 **Practical start** | Neighborhood fit, transit (Metromover, Metrorail, Brightline, Freebee, Citi Bike, trolleys), and a heads-up on costs (insurance, flood zone) so nothing blindsides you. We don't try to fix affordability. |
 
 ## The game: one side quest at a time
 
