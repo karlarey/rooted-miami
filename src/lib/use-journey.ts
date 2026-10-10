@@ -24,10 +24,16 @@ function initial(profile: Profile = alex): Journey {
   return { profile, accepted: [], checkIns: [checkInFor("seed", 0)], rsvps: [] };
 }
 
+/** Screens assume at least one check-in (the starting point); saved journeys may have none. */
+function normalize(j: Journey): Journey {
+  const checkIns = j.checkIns?.length ? j.checkIns : [checkInFor(levelFor(j.profile.completedQuests ?? []), 0)];
+  return { ...j, accepted: j.accepted ?? [], checkIns, rsvps: j.rsvps ?? [] };
+}
+
 function load(): Journey | null {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? (JSON.parse(raw) as Journey) : null;
+    return raw ? normalize(JSON.parse(raw) as Journey) : null;
   } catch {
     return null;
   }
@@ -71,7 +77,8 @@ export function useJourney() {
     if (stored) setJourney(stored); // eslint-disable-line react-hooks/set-state-in-effect
     // The database wins when signed in. Wait for it before showing anything,
     // so a stale browser copy (e.g. the demo persona) never flashes.
-    pullFromServer<Journey>("journey").then((server) => {
+    pullFromServer<Journey>("journey").then((saved) => {
+      const server = saved?.profile ? normalize(saved) : null;
       if (server) {
         setJourney(server);
         try {
