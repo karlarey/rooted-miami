@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { IntentChart } from "@/components/journey/IntentChart";
+import { LikeMinded } from "@/components/journey/LikeMinded";
 import { PayCard } from "@/components/journey/PayCard";
 import { QuestCard } from "@/components/journey/QuestCard";
 import { PanaChat } from "@/components/pana/PanaChat";
@@ -82,6 +83,8 @@ export default function JourneyPage() {
               ))}
             </div>
           </section>
+
+          <LikeMinded profile={profile} status={status} onAccept={accept} onComplete={complete} />
 
           {more.length > 0 && (
             <section>

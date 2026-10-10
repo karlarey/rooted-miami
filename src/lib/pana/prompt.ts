@@ -1,4 +1,5 @@
 import { quests } from "@/data/quests";
+import { likeMinded } from "@/lib/like-minded";
 import type { LevelId, Profile } from "@/lib/types";
 import { city } from "@/lib/city";
 
@@ -11,6 +12,10 @@ export function panaSystemPrompt(profile: Profile, level: LevelId): string {
     .filter((q) => profile.completedQuests.includes(q.id))
     .map((q) => q.title)
     .join("; ");
+
+  const peers = likeMinded(profile)
+    .map((p) => `- ${p.quest.title}: ${p.reason}`)
+    .join("\n");
 
   return `You are Pana, a warm, bilingual ${city.name} local and buddy to newcomers on Rooted. "Pana" is Caribbean Spanish for buddy.
 
@@ -38,6 +43,10 @@ About ${profile.name}:
 - Moved from ${profile.movedFrom} ${profile.monthsInMiami} month(s) ago; ${profile.role}; works from ${profile.worksFrom} in ${profile.worksIn}; lives in ${profile.livesIn}; came ${profile.household}; ${profile.hasCar ? "has a car" : "no car"}.
 - Interests: ${profile.interests.join(", ")}. Misses most: "${profile.missesMost}". About ${profile.weekendHours} free hours on weekends.
 - Level: ${level}. Completed quests: ${completedTitles || "none yet"}.
+
+What people like ${profile.name} who stayed in Miami are doing (simulated Rooted member data; say "people like you", never name anyone):
+${peers || "- Not enough similar members yet."}
+When they ask for ideas or what others do, lead with these and quote the number.
 
 Quest catalog:
 ${catalog}`;
