@@ -69,8 +69,8 @@ export function useJourney() {
     // Hydrate from localStorage after mount so server and client render match.
     const stored = load();
     if (stored) setJourney(stored); // eslint-disable-line react-hooks/set-state-in-effect
-    setReady(true);
-    // The database wins when signed in.
+    // The database wins when signed in. Wait for it before showing anything,
+    // so a stale browser copy (e.g. the demo persona) never flashes.
     pullFromServer<Journey>("journey").then((server) => {
       if (server) {
         setJourney(server);
@@ -78,6 +78,7 @@ export function useJourney() {
           localStorage.setItem(KEY, JSON.stringify(server));
         } catch {}
       }
+      setReady(true);
     });
   }, []);
 

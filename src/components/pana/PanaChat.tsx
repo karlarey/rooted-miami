@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ChatMessage } from "@/lib/pana/providers";
 import { triggers, type Trigger } from "@/lib/pana/triggers";
+import { useVoice } from "@/lib/pana/voice";
 import type { Profile } from "@/lib/types";
 
 interface Props {
@@ -20,6 +21,16 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
   ]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const latest = useRef({ messages, busy });
+  useEffect(() => {
+    latest.current = { messages, busy };
+  });
+  const voice = useVoice({
+    onFinal: (text) => {
+      if (latest.current.busy) return;
+      send([...latest.current.messages, { role: "user", content: text }]);
+    },
+  });
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -46,6 +57,7 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
         reply += decoder.decode(value, { stream: true });
         setMessages([...history, { role: "assistant", content: reply }]);
       }
+      voice.speak(reply);
     } catch {
       setMessages([...history, { role: "assistant", content: "Ay, I lost signal. Try again in a sec?" }]);
     } finally {
@@ -69,8 +81,23 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
         </span>
         <div>
           <p className="font-semibold">Pana</p>
-          <p className="text-xs text-muted">Your buddy in Miami · chat or text</p>
+          <p className="text-xs text-muted">Your buddy in Miami · chat, text or talk</p>
         </div>
+        {voice.supported.speak && (
+          <button
+            type="button"
+            onClick={() => {
+              if (voice.voiceOn) window.speechSynthesis.cancel();
+              voice.setVoiceOn(!voice.voiceOn);
+            }}
+            aria-pressed={voice.voiceOn}
+            className={`ml-auto rounded-full border px-3 py-1 text-xs font-semibold ${
+              voice.voiceOn ? "border-brand bg-accent-soft text-brand" : "border-line text-muted"
+            }`}
+          >
+            {voice.voiceOn ? "🔊 Pana talks" : "🔈 Voice off"}
+          </button>
+        )}
       </header>
 
       <div className="flex-1 space-y-3 overflow-y-auto p-4" aria-live="polite">
@@ -114,9 +141,29 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
           id="pana-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Text Pana…"
+          placeholder={voice.listening ? voice.interim || "Listening…" : "Text Pana, or tap the mic"}
           className="min-w-0 flex-1 rounded-full border border-line bg-bg px-4 py-2 text-sm outline-none focus:border-brand"
         />
+        {voice.supported.listen && (
+          <button
+            type="button"
+            onClick={() => {
+              if (voice.listening) voice.stop();
+              else {
+                voice.setVoiceOn(true);
+                voice.listen();
+              }
+            }}
+            disabled={busy}
+            aria-label={voice.listening ? "Stop listening" : "Talk to Pana"}
+            aria-pressed={voice.listening}
+            className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${
+              voice.listening ? "animate-pulse bg-miami text-white" : "bg-accent text-on-accent"
+            } disabled:opacity-50`}
+          >
+            🎙️
+          </button>
+        )}
         <button
           type="submit"
           disabled={busy || !input.trim()}

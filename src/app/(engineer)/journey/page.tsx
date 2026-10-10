@@ -130,7 +130,7 @@ export default function JourneyPage() {
 
         <aside className="lg:sticky lg:top-36 lg:h-[calc(100vh-10.5rem)]">
           <div className="h-[560px] lg:h-full">
-            <PanaChat profile={profile} />
+            <PanaChat key={profile.name} profile={profile} />
           </div>
         </aside>
       </div>
