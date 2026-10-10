@@ -46,7 +46,27 @@ function load(): SharingPreferences | null {
   }
 }
 
+
+/** Signed-in users: persist to the database too (ignored when signed out). */
+function pushToServer(body: object) {
+  fetch("/api/me", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).catch(
+    () => {},
+  );
+}
+
+async function pullFromServer<T>(key: "journey" | "sharing"): Promise<T | null> {
+  try {
+    const res = await fetch("/api/me");
+    if (!res.ok) return null;
+    const data = (await res.json()) as Record<string, unknown>;
+    return (data[key] as T) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function save(p: SharingPreferences) {
+  pushToServer({ sharing: p });
   try {
     localStorage.setItem(KEY, JSON.stringify(p));
   } catch {
@@ -72,6 +92,9 @@ export function useSharing() {
     const stored = load();
     if (stored) setPrefs(stored); // eslint-disable-line react-hooks/set-state-in-effect
     setReady(true);
+    pullFromServer<SharingPreferences>("sharing").then((server) => {
+      if (server) setPrefs({ ...defaultSharing, ...server });
+    });
   }, []);
 
   const update = useCallback((next: SharingPreferences) => {

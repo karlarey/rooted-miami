@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { linkedinEnabled } from "@/lib/auth";
 import { LoginForm } from "./login-form";
 
 export const metadata: Metadata = {
@@ -21,11 +22,10 @@ export default function LoginPage() {
       </div>
 
       <p className="mx-auto mt-6 mb-5 rounded-full border border-accent/60 bg-surface-2 px-3 py-1.5 text-center text-xs text-ink">
-        <span className="font-semibold">Demo login.</span> No password, no account. Anything you type stays in this
-        browser.
+        <span className="font-semibold">Secure sign-in.</span> Your account and progress are saved in Rooted&rsquo;s database. Passwords are stored hashed.
       </p>
 
-      <LoginForm />
+      <LoginForm linkedinEnabled={linkedinEnabled} />
 
       <p className="mt-auto pt-8 text-center text-xs text-muted">
         ¡Bienvenido! Built for the Brain Gain track: helping Miami keep the talent it attracts.
