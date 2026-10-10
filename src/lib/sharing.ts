@@ -13,6 +13,8 @@ export type WorkMode = "office" | "hybrid" | "remote";
 
 export interface SharingPreferences {
   openToMessages: boolean;
+  /** Other engineers nearby can find me and Pana can introduce us (separate from companies). */
+  openToEngineers?: boolean;
   paused: boolean;
   shareName: boolean;
   /** Companies that can never find or message me (e.g. my current employer). */

@@ -189,6 +189,13 @@ function SharingForm() {
       </section>
 
       <Toggle
+        label="Let other engineers find me"
+        hint="Engineers nearby with shared interests can see your first name, neighborhood and interests. Pana introduces you only if both say yes."
+        checked={Boolean(p.openToEngineers)}
+        onChange={(v) => set({ openToEngineers: v })}
+      />
+
+      <Toggle
         label="I also hire engineers"
         hint="Adds a Rooted for Business profile to your account. Your engineer data stays private from it."
         checked={hasBusiness}

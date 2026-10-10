@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { IntentChart } from "@/components/journey/IntentChart";
 import { LikeMinded } from "@/components/journey/LikeMinded";
+import { NearbyEngineers } from "@/components/journey/NearbyEngineers";
 import { PayCard } from "@/components/journey/PayCard";
 import { QuestCard } from "@/components/journey/QuestCard";
 import { PanaChat } from "@/components/pana/PanaChat";
@@ -83,6 +84,8 @@ export default function JourneyPage() {
               ))}
             </div>
           </section>
+
+          <NearbyEngineers profile={profile} />
 
           <LikeMinded profile={profile} status={status} onAccept={accept} onComplete={complete} />
 

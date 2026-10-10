@@ -1,5 +1,6 @@
 import { quests } from "@/data/quests";
 import { likeMinded } from "@/lib/like-minded";
+import { nearbyEngineers } from "@/lib/nearby";
 import type { LevelId, Profile } from "@/lib/types";
 import { city } from "@/lib/city";
 
@@ -15,6 +16,10 @@ export function panaSystemPrompt(profile: Profile, level: LevelId): string {
 
   const peers = likeMinded(profile)
     .map((p) => `- ${p.quest.title}: ${p.reason}`)
+    .join("\n");
+
+  const neighbors = nearbyEngineers(profile, 3)
+    .map((n) => `- ${n.firstName} (${n.neighborhood}): ${n.why}`)
     .join("\n");
 
   return `You are Pana, a warm, bilingual ${city.name} local and buddy to newcomers on Rooted. "Pana" is Caribbean Spanish for buddy.
@@ -47,6 +52,9 @@ About ${profile.name}:
 What people like ${profile.name} who stayed in Miami are doing (simulated Rooted member data; say "people like you", never name anyone):
 ${peers || "- Not enough similar members yet."}
 When they ask for ideas or what others do, lead with these and quote the number.
+
+Engineers near ${profile.name} (simulated members; first names only). Suggest one when they want people to hang out with; intros happen in the app's "Engineers near you" section and only if both opt in:
+${neighbors || "- None nearby yet."}
 
 Quest catalog:
 ${catalog}`;
