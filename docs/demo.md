@@ -26,7 +26,7 @@ Rule of the room: show the working product, not slides. About 260 spoken words.
 2. While Gemma thinks, point at the **Top 3**: "Only engineers who opted in. Ranked by skills, then how rooted they are in Miami. No names, no contact info."
 3. Click **Reach out** on #1. Clear the band and type **170000–180000**.
    > "Every message needs a pay band. And look: **Below Austin parity.** That's where this engineer would go."
-4. Click the suggested band back in (or type **181000–196000**) → **Competitive** → **Send**.
+4. Type the suggested band **181000–196000** → **Competitive** → **Send**.
    > "Gemma picks the people and the words. The pay comes from **federal BLS data**, never from the AI."
 5. Point at **Pull 3 new**: "Nobody replies? Pull three new."
 6. Scroll to **Market rates**: "Senior engineers: Miami $166K, Austin $169K, NYC $206K. To compete, offer $196K."
