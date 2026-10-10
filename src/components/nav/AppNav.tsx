@@ -32,7 +32,7 @@ export function AppNav() {
                 type="button"
                 onClick={() => {
                   updateRoles([...new Set([...roles, "company" as const])]);
-                  router.push("/companies");
+                  router.push("/companies/finder");
                 }}
                 className="rounded-full border border-brand px-3 py-1 text-xs font-semibold text-brand hover:bg-accent-soft"
               >
@@ -42,7 +42,7 @@ export function AppNav() {
             {hasBusiness && (
               <div className="flex rounded-full border border-line p-0.5 text-xs font-semibold" aria-label="Switch profile">
                 <span className="rounded-full bg-primary px-3 py-1 text-on-primary">People</span>
-                <Link href="/companies" className="rounded-full px-3 py-1 text-muted hover:text-ink">
+                <Link href="/companies/finder" className="rounded-full px-3 py-1 text-muted hover:text-ink">
                   Business
                 </Link>
               </div>
