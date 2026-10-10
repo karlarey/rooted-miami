@@ -94,9 +94,9 @@ We give newcomers to Miami a **welcome package** on arrival: a community that st
 - **Proactive:** steps in at risk moments (3 weeks quiet, lease renewal, coworker leaves, layoff) *before* the decision to leave.
 - **Guardrails:** points to human help (988) on real distress; opt-in sharing; intent-to-leave data stays private; human-first.
 
-## The companies' agent (name TBD)
+## Talent Finder: the companies' agent
 
-El Pana is the engineer's buddy; this agent is the company's partner. (Not named after LinkedIn: we're not affiliated, and we never use scraped LinkedIn data.)
+El Pana is the engineer's buddy; Talent Finder is the company's partner. (Not named after LinkedIn: we're not affiliated, and we never use scraped LinkedIn data.)
 
 - **Find talent:** "I need 3 senior backend engineers" → matching opted-in engineers from the talent map (aggregates first, intros only with consent).
 - **Pay check:** uses `competitiveness()` in `src/lib/pay-math.ts`, the same numbers engineers see in "Know your number."
