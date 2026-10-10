@@ -5,15 +5,17 @@ import { useMemo } from "react";
 import { IntentChart } from "@/components/journey/IntentChart";
 import { QuestCard } from "@/components/journey/QuestCard";
 import { PanaChat } from "@/components/pana/PanaChat";
+import { LevelPath } from "@/components/stages/LevelPath";
+import { LevelUpCelebration } from "@/components/stages/LevelUpCelebration";
+import { useLevelUp } from "@/components/stages/useLevelUp";
 import { quests } from "@/data/quests";
-import { levelOrder, levels } from "@/lib/levels";
-import { nextSteps } from "@/lib/progress";
 import { recommend, welcomePackage } from "@/lib/recommend";
 import { useJourney } from "@/lib/use-journey";
 
 export default function JourneyPage() {
   const { journey, ready, level, accept, complete, reset } = useJourney();
   const { profile, accepted, checkIns } = journey;
+  const { celebrating, dismiss } = useLevelUp(level, ready);
 
   const pkg = useMemo(() => welcomePackage(profile, level), [profile, level]);
   const more = useMemo(
@@ -22,8 +24,6 @@ export default function JourneyPage() {
   );
   const acceptedQuests = quests.filter((q) => accepted.includes(q.id));
   const doneQuests = quests.filter((q) => profile.completedQuests.includes(q.id));
-  const steps = nextSteps(profile.completedQuests);
-  const levelIndex = levelOrder.indexOf(level);
 
   if (!ready) return <main className="p-8 text-muted">Loading your journey…</main>;
 
@@ -55,31 +55,8 @@ export default function JourneyPage() {
         </nav>
       </header>
 
-      {/* Level strip */}
-      <section aria-label="Your level" className="mt-6 rounded-2xl border border-line bg-surface p-4">
-        <ol className="grid grid-cols-4 gap-2">
-          {levelOrder.map((id, i) => (
-            <li key={id} className="text-center">
-              <div
-                className={`mx-auto h-2 rounded-full ${i <= levelIndex ? "bg-coral" : "bg-line"}`}
-                aria-hidden
-              />
-              <p className={`mt-2 text-sm ${id === level ? "font-semibold text-ink" : "text-muted"}`}>
-                {levels[id].emoji} <span className="hidden sm:inline">{levels[id].name}</span>
-              </p>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-3 text-sm">
-          <strong>
-            {levels[level].emoji} {levels[level].name}: {levels[level].milestone}.
-          </strong>{" "}
-          {steps.length > 0 ? (
-            <span className="text-muted">Next: {steps.join(" · ")}</span>
-          ) : (
-            <span className="text-teal">You&rsquo;re a Host. Keep growing the grove.</span>
-          )}
-        </p>
+      <section aria-label="Your stage" className="mt-6">
+        <LevelPath level={level} completed={profile.completedQuests} compact />
       </section>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_380px]">
@@ -158,6 +135,7 @@ export default function JourneyPage() {
           </div>
         </aside>
       </div>
+      {celebrating && <LevelUpCelebration level={celebrating} onClose={dismiss} />}
     </main>
   );
 }
