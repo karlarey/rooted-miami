@@ -1,0 +1,79 @@
+# Rooted: concept
+
+## Problem statement
+
+> Miami attracts engineers from everywhere, but it doesn't turn them into locals. Newcomers live alongside the city, not within it. They never feel they belong or that anyone here needs them, so they leave at the first cost or career shock. We've watched our friends do it. Meanwhile local students struggle to break into tech without a network.
+
+**Evidence** (see [research](research/why-engineers-leave.md)):
+- ~73K net domestic out-migration from Miami-Dade in 2025, the most of any Florida county (UF Shimberg, Jul 2026)
+- 51.8% of childless 18–34s in Miami likely to leave, #3 of 27 metros (Gensler City Pulse, 2024)
+- Miami ranks bottom 3 of major US cities for volunteering and civic ties (AmeriCorps/Census, 2023)
+- Attachment to place is driven more by social offerings and openness than by jobs (Knight/Gallup *Soul of the Community*)
+- Nothing in Miami follows newcomers after arrival, and there's no easy way for an individual engineer to mentor local students ([existing resources](research/existing-resources.md))
+
+## Core insight
+
+People don't stay in a city for its amenities. They stay because **they belong** and **people need them there.**
+
+We give newcomers to Miami a **welcome package** on arrival: a community that stays even as people come and go, a purpose that outlasts life's changes, and an identity: *"I'm a Miamian."*
+
+## The welcome package
+
+| Item | What the newcomer gets |
+|---|---|
+| 🤝 **Community** | Matched to **recurring** local rituals near home: tennis (Crandon Park, public courts), pickleball, padel, run clubs, group rides, beach volleyball, paddleboarding, rec soccer, salsa, dominoes. Mixed locals + newcomers. |
+| 🎓 **Purpose** | **Path A:** a designed mentorship program (2 hrs/month × 6 months with FIU / MDC / UM students). **Path B:** nonprofit matching by cause and skill (education, climate, community, skills-based volunteering). |
+| 🌴 **Identity** | Welcomed in by Hosts who came before; later becomes a Host. |
+| 🧭 **Practical start** | Neighborhood fit, transit (Metromover, Metrorail, Brightline, Freebee, Citi Bike, trolleys), cost and flood reality. |
+
+## The game: one side quest at a time
+
+**Main quest:** become a Miamian. **Side quests:** small, concrete, real-world steps.
+
+| Level | Milestone | Earned by |
+|---|---|---|
+| 🌱 **Seed** | Discovering | Picked a neighborhood, explored 3+ areas, got around once without a car |
+| 🌿 **Sprout** | Routines and connections | Recurring ritual 4+ weeks; 2+ people outside work to call |
+| 🌳 **Rooted** | Belonging | Belonging score up; "I'm a Miamian: Yes"; active mentoring or volunteering |
+| 🌲 **Grove** | Contributing | Welcomed newcomers, created a community, mentees placed |
+
+**Design rules**
+1. Real rewards, not points. Levels mark real life milestones.
+2. Every interaction ends with a real-world action. Get people *off* the app.
+3. Nothing is a form; it's a conversation.
+4. Accountability comes in three layers: self → each other → someone who needs you.
+
+## El Pana: the AI buddy
+
+*Pana*: Caribbean Spanish (Puerto Rico, Venezuela, DR) for buddy.
+
+- **Chat or text.** A warm, bilingual Miami local, not a corporate bot.
+- **Quest guide, local expert, connector, mentor coordinator, check-in coach.**
+- **Proactive:** steps in at risk moments (3 weeks quiet, lease renewal, coworker leaves, layoff) *before* the decision to leave.
+- **Guardrails:** points to human help (988) on real distress; opt-in sharing; intent-to-leave data stays private; human-first.
+
+## Recommendation engine
+
+- **Based on you:** onboarding conversation → background, life situation, interests, goals, time.
+- **Engineers like you:** what similar newcomers who *stayed* did (anonymized, aggregated).
+- **Optimizes for retention and wellbeing, not clicks.**
+- **Matches people too:** quest party, Host/guide, mentee, nonprofit.
+- **Explains itself:** "3 NYC engineers play in this ladder, 15 min from Brickell."
+- **Cold start:** seeded from our survey/interview data + synthetic profiles.
+
+## Brand system
+
+| | |
+|---|---|
+| Platform | **Rooted** |
+| First city | **Rooted Miami** (repeatable playbook for any city losing talent) |
+| Agent | **El Pana** |
+| Levels | Seed → Sprout → Rooted → Grove |
+| Pitch story | From nomad to Miamian |
+
+**Pitch framing:** lead with *keeping people in Miami*. Portability ("rooted" skills carry to the next city) is a vision slide, not the headline.
+
+## Open items
+- [ ] Interviews with friends who left + transplant survey (primary evidence)
+- [ ] Trademark / app store / domain check for "Rooted"
+- [ ] Verify uncertain resources (Venture Miami, The LAB, Code for Miami, PyMiami, Miami Hack Week)
