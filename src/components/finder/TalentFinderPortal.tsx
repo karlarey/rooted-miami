@@ -107,27 +107,43 @@ export function TalentFinderPortal() {
 function AskTalentFinder({ onResult }: { onResult: (r: FinderResult) => void }) {
   const [text, setText] = useState("We're a fintech in Wynwood hiring 3 senior backend engineers, hybrid, Go and PostgreSQL.");
   const [busy, setBusy] = useState(false);
+  const [refining, setRefining] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<FinderResult | null>(null);
 
+  const ask = async (fast: boolean): Promise<FinderResult> => {
+    const res = await fetch("/api/talent-finder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ request: text, company: COMPANY.name, fast }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    return data;
+  };
+
+  // Progressive: an instant keyword read fills results now; Gemma 4 (~15s, it thinks first) refines them.
   async function submit(e: FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError("");
     try {
-      const res = await fetch("/api/talent-finder", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ request: text, company: COMPANY.name }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setResult(data);
-      onResult(data);
+      const quick = await ask(true);
+      setResult(quick);
+      onResult(quick);
+    } catch (err) {
+      setError((err as Error).message);
+    }
+    setBusy(false);
+    setRefining(true);
+    try {
+      const ai = await ask(false);
+      setResult(ai);
+      onResult(ai);
     } catch (err) {
       setError((err as Error).message || "Talent Finder is offline. Use the filters below.");
     } finally {
-      setBusy(false);
+      setRefining(false);
     }
   }
 
@@ -149,13 +165,19 @@ function AskTalentFinder({ onResult }: { onResult: (r: FinderResult) => void }) 
           className="w-full flex-1 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-inherit placeholder:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-rb-lime dark:border-rb-line dark:bg-rb-bg"
           placeholder="e.g. 2 mid frontend engineers, React, remote-friendly, Brickell office"
         />
-        <button type="submit" disabled={busy || !text.trim()} className={`${btnAccent} self-start sm:self-stretch`}>
-          {busy ? "Finding…" : "Find talent"}
+        <button type="submit" disabled={busy || refining || !text.trim()} className={`${btnAccent} self-start sm:self-stretch`}>
+          {busy ? "Finding…" : refining ? "Refining…" : "Find talent"}
         </button>
       </form>
       {error && (
         <p role="alert" className="mt-3 rounded-xl bg-rb-coral-soft px-4 py-2 text-sm text-rb-ink">
           {error}
+        </p>
+      )}
+      {refining && (
+        <p aria-live="polite" className="mt-3 flex items-center gap-2 text-sm opacity-90">
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-rb-lime motion-reduce:animate-none" />
+          Gemma 4 is reading your request and drafting a personal note…
         </p>
       )}
       {result && (

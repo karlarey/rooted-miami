@@ -94,7 +94,7 @@ function parseLocally(request: string, company: string) {
     skills,
     role,
     headcount,
-    rationale: "Read with the keyword parser (no AI key configured).",
+    rationale: "Quick keyword read of your request.",
     draftMessage: `Hi! I'm hiring at ${company} here in Miami and your profile stood out. We're building our team locally because we want people who are part of this city. Would you be open to a 20-minute coffee chat this week?`,
   };
 }
@@ -102,10 +102,11 @@ function parseLocally(request: string, company: string) {
 const pick = <T extends string>(v: unknown, allowed: readonly T[], dflt: T | "all"): T | "all" =>
   allowed.includes(v as T) ? (v as T) : dflt;
 
-export async function runTalentFinder(request: string, company: string): Promise<FinderResult> {
+/** fast = instant keyword read (shown while Gemma 4 thinks, ~15s); otherwise Gemma 4 when a key is set. */
+export async function runTalentFinder(request: string, company: string, fast = false): Promise<FinderResult> {
   let raw: ReturnType<typeof parseLocally>;
-  let engine = "keyword parser (no GEMINI_API_KEY)";
-  if (process.env.GEMINI_API_KEY) {
+  let engine = fast ? "instant keyword read" : "keyword parser (no GEMINI_API_KEY)";
+  if (!fast && process.env.GEMINI_API_KEY) {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const model = await resolveGemma(ai);
     const res = await ai.models.generateContent({ model, contents: prompt(request, company), config: { temperature: 0.3 } });
