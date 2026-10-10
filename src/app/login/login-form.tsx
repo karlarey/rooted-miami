@@ -30,6 +30,21 @@ export function LoginForm() {
   return (
     <div className="space-y-4">
       <section className="rounded-2xl border border-line bg-surface p-5">
+        <p className="font-semibold text-ink">Bring your LinkedIn</p>
+        <p className="mt-1 text-sm text-muted">
+          El Pana reads your profile once to skip the boring questions. Then you choose what companies can see.
+        </p>
+        <button
+          type="button"
+          onClick={() => router.push("/onboarding?import=linkedin")}
+          className="mt-4 w-full rounded-full bg-[#0a66c2] px-5 py-3.5 text-base font-semibold text-white transition active:scale-[0.98]"
+        >
+          Continue with LinkedIn
+        </button>
+        <p className="mt-2 text-xs text-muted">Demo: upload your LinkedIn profile PDF. Read once, never stored.</p>
+      </section>
+
+      <section className="rounded-2xl border border-line bg-surface p-5">
         <div className="flex items-center gap-3">
           <span
             aria-hidden

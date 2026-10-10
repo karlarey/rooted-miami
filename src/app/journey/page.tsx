@@ -47,8 +47,8 @@ export default function JourneyPage() {
           <Link href="/stages" className="text-muted hover:text-coral">
             Stages
           </Link>
-          <Link href="/dashboard" className="text-muted hover:text-coral">
-            City dashboard
+          <Link href="/sharing" className="text-muted hover:text-coral">
+            What companies see
           </Link>
           <button onClick={reset} className="text-muted hover:text-coral">
             Reset demo
