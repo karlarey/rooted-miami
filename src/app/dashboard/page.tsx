@@ -10,6 +10,7 @@ import { TalentSignal } from "@/components/dashboard/TalentSignal";
 import { PROGRAM_MONTHS, syntheticMembers } from "@/data/synthetic-members";
 import { talentPool } from "@/data/talent-pool";
 import { dashboardMetrics, VOLUNTEER_HOUR_VALUE } from "@/lib/metrics";
+import { city } from "@/lib/city";
 
 export const metadata: Metadata = {
   title: "City dashboard · Rooted Miami",
@@ -91,7 +92,7 @@ export default function DashboardPage() {
             change={`from ${fmt1(s.peopleOutsideWorkAtJoin)} at join`}
           />
           <StatTile
-            label="Say “I’m a Miamian”"
+            label={`Say “I’m a ${city.demonym}”`}
             value={fmtPct(s.miamianYes)}
             change={`from ${fmtPct(s.miamianYesAtJoin)} at join`}
             accent="coral"

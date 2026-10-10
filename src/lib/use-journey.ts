@@ -31,7 +31,27 @@ function load(): Journey | null {
   }
 }
 
+
+/** Signed-in users: persist to the database too (ignored when signed out). */
+function pushToServer(body: object) {
+  fetch("/api/me", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).catch(
+    () => {},
+  );
+}
+
+async function pullFromServer<T>(key: "journey" | "sharing"): Promise<T | null> {
+  try {
+    const res = await fetch("/api/me");
+    if (!res.ok) return null;
+    const data = (await res.json()) as Record<string, unknown>;
+    return (data[key] as T) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function save(j: Journey) {
+  pushToServer({ journey: j });
   try {
     localStorage.setItem(KEY, JSON.stringify(j));
   } catch {
@@ -48,6 +68,15 @@ export function useJourney() {
     const stored = load();
     if (stored) setJourney(stored); // eslint-disable-line react-hooks/set-state-in-effect
     setReady(true);
+    // The database wins when signed in.
+    pullFromServer<Journey>("journey").then((server) => {
+      if (server) {
+        setJourney(server);
+        try {
+          localStorage.setItem(KEY, JSON.stringify(server));
+        } catch {}
+      }
+    });
   }, []);
 
   const update = useCallback((fn: (j: Journey) => Journey) => {

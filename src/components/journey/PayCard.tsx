@@ -18,11 +18,11 @@ export function PayCard({ profile }: { profile: Profile }) {
   const max = Math.max(...rows.map((r) => r.value));
 
   return (
-    <section className="rounded-2xl border border-line bg-surface p-4">
+    <section className="rounded-2xl border border-line bg-surface shadow-card p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-lg font-semibold">💼 Your pay in Miami</h2>
         {isIllustrative(b) && (
-          <span className="rounded-full bg-gold/20 px-2 py-0.5 text-xs font-medium text-ink">
+          <span className="rounded-full bg-accent/50 px-2 py-0.5 text-xs font-medium text-ink">
             Illustrative: replace with real data
           </span>
         )}
@@ -39,7 +39,7 @@ export function PayCard({ profile }: { profile: Profile }) {
             </div>
             <div className="mt-1 h-2 rounded-full bg-surface-2">
               <div
-                className={`h-2 rounded-full ${r.highlight ? "bg-coral" : "bg-teal"}`}
+                className={`h-2 rounded-full ${r.highlight ? "bg-primary" : "bg-leaf"}`}
                 style={{ width: `${(r.value / max) * 100}%` }}
               />
             </div>
@@ -51,7 +51,7 @@ export function PayCard({ profile }: { profile: Profile }) {
           To match Austin&rsquo;s buying power, Miami pay for this role would be <strong>{usd(b.miamiTarget)}</strong>,{" "}
           {b.miamiTarget > b.miamiLocal ? (
             <>
-              <strong className="text-coral">{usd(b.miamiTarget - b.miamiLocal)} more</strong> than Miami pays today.
+              <strong className="text-brand">{usd(b.miamiTarget - b.miamiLocal)} more</strong> than Miami pays today.
             </>
           ) : (
             "which Miami already pays."

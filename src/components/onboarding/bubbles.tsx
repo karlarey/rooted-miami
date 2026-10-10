@@ -3,7 +3,7 @@ export function PanaAvatar({ size = "sm" }: { size?: "sm" | "lg" }) {
   return (
     <span
       aria-hidden
-      className={`${dims} inline-flex shrink-0 items-center justify-center rounded-full bg-teal-soft ring-1 ring-line`}
+      className={`${dims} inline-flex shrink-0 items-center justify-center rounded-full bg-leaf-soft ring-1 ring-line`}
     >
       🌴
     </span>
@@ -24,7 +24,7 @@ export function PanaBubble({ text, showAvatar }: { text: string; showAvatar: boo
 export function MyBubble({ text }: { text: string }) {
   return (
     <div className="flex justify-end">
-      <p className="max-w-[80%] rounded-2xl rounded-br-md bg-teal px-4 py-2.5 text-[15px] leading-snug font-medium text-bg">
+      <p className="max-w-[80%] rounded-2xl rounded-br-md bg-leaf px-4 py-2.5 text-[15px] leading-snug font-medium text-on-leaf">
         {text}
       </p>
     </div>
@@ -33,7 +33,7 @@ export function MyBubble({ text }: { text: string }) {
 
 export function TypingBubble() {
   return (
-    <div className="flex items-end gap-2" role="status" aria-label="El Pana is typing">
+    <div className="flex items-end gap-2" role="status" aria-label="Pana is typing">
       <div className="w-8 shrink-0">
         <PanaAvatar />
       </div>

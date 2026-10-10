@@ -15,7 +15,7 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      content: `¡Wepa, ${profile.name}! I'm El Pana, your buddy in Miami. Ask me anything, or tell me how your week's going.`,
+      content: `¡Wepa, ${profile.name}! I'm Pana, your buddy in Miami. Ask me anything, or tell me how your week's going.`,
     },
   ]);
   const [input, setInput] = useState("");
@@ -62,13 +62,13 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
   }
 
   return (
-    <section className="flex h-full flex-col rounded-2xl border border-line bg-surface" aria-label="Chat with El Pana">
+    <section className="flex h-full flex-col rounded-2xl border border-line bg-surface shadow-card" aria-label="Chat with Pana">
       <header className="flex items-center gap-3 border-b border-line p-4">
-        <span className="grid h-10 w-10 place-items-center rounded-full bg-coral text-lg text-white" aria-hidden>
+        <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-lg text-on-primary" aria-hidden>
           🤙
         </span>
         <div>
-          <p className="font-semibold">El Pana</p>
+          <p className="font-semibold">Pana</p>
           <p className="text-xs text-muted">Your buddy in Miami · chat or text</p>
         </div>
       </header>
@@ -78,10 +78,10 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
           <div key={i} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
             <p
               className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm ${
-                m.role === "user" ? "bg-coral text-white" : "bg-surface-2 text-ink"
+                m.role === "user" ? "bg-primary text-on-primary" : "bg-surface-2 text-ink"
               }`}
             >
-              {m.content || <span className="text-muted">El Pana is typing…</span>}
+              {m.content || <span className="text-muted">Pana is typing…</span>}
             </p>
           </div>
         ))}
@@ -90,14 +90,14 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
 
       {showRiskMoments && (
         <div className="border-t border-line px-4 pt-3">
-          <p className="text-xs text-muted">Demo: simulate a risk moment. El Pana reaches out first.</p>
+          <p className="text-xs text-muted">Demo: simulate a risk moment. Pana reaches out first.</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {(Object.keys(triggers) as Trigger[]).map((t) => (
               <button
                 key={t}
                 disabled={busy}
                 onClick={() => send(messages, t)}
-                className="rounded-full border border-line px-3 py-1 text-xs hover:border-coral hover:text-coral disabled:opacity-50"
+                className="rounded-full border border-line px-3 py-1 text-xs hover:border-brand hover:text-brand disabled:opacity-50"
               >
                 {triggers[t].emoji} {triggers[t].label}
               </button>
@@ -108,19 +108,19 @@ export function PanaChat({ profile, showRiskMoments = true }: Props) {
 
       <form onSubmit={submit} className="flex gap-2 p-4">
         <label htmlFor="pana-input" className="sr-only">
-          Message El Pana
+          Message Pana
         </label>
         <input
           id="pana-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Text El Pana…"
-          className="min-w-0 flex-1 rounded-full border border-line bg-bg px-4 py-2 text-sm outline-none focus:border-coral"
+          placeholder="Text Pana…"
+          className="min-w-0 flex-1 rounded-full border border-line bg-bg px-4 py-2 text-sm outline-none focus:border-brand"
         />
         <button
           type="submit"
           disabled={busy || !input.trim()}
-          className="rounded-full bg-coral px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-on-primary disabled:opacity-50"
         >
           Send
         </button>

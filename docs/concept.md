@@ -127,6 +127,8 @@ El Pana is the engineer's buddy; Talent Finder is the company's partner. (Not na
 **Pitch framing:** lead with *keeping people in Miami*. Portability ("rooted" skills carry to the next city) is a vision slide, not the headline.
 
 ## Open items
+- [ ] **Follow-up: LinkedIn data-export import.** Users upload the ZIP from LinkedIn → Settings → Data privacy → *Get a copy of your data* (positions, skills, education, certifications as CSV). Richer than the PDF. We never scrape LinkedIn or use third-party LinkedIn data APIs; LinkedIn's API only shares name, email and photo with non-partner apps.
+- [ ] Real "Sign in with LinkedIn": create a LinkedIn developer app (OpenID Connect), add `LINKEDIN_CLIENT_ID` / `LINKEDIN_CLIENT_SECRET`, redirect URL `/api/auth/callback/linkedin`
 - [ ] Interviews with friends who left + transplant survey (primary evidence)
 - [ ] Trademark / app store / domain check for "Rooted"
 - [ ] Verify uncertain resources (Venture Miami, The LAB, Code for Miami, PyMiami, Miami Hack Week)

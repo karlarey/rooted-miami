@@ -41,7 +41,7 @@ export function nextSteps(completed: string[]): string[] {
 
 /**
  * Demo check-in arc: a check-in is recorded each time Alex levels up.
- * In production these come from El Pana's monthly 5-question check-in.
+ * In production these come from Pana's monthly 5-question check-in.
  */
 const arc: Record<LevelId, Omit<CheckIn, "month">> = {
   seed: { intentToStay: 4, lifeSatisfaction: 5, peopleOutsideWork: 0, belonging: 1, miamian: "no" },

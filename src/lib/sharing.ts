@@ -15,6 +15,8 @@ export interface SharingPreferences {
   openToMessages: boolean;
   paused: boolean;
   shareName: boolean;
+  /** Companies that can never find or message me (e.g. my current employer). */
+  hiddenFrom: string[];
   shared: {
     stack?: Stack;
     seniority?: Seniority;
@@ -31,6 +33,7 @@ export const defaultSharing: SharingPreferences = {
   openToMessages: false,
   paused: false,
   shareName: false,
+  hiddenFrom: [],
   shared: { skills: [], workModes: [] },
   reviewed: false,
 };
@@ -46,12 +49,42 @@ function load(): SharingPreferences | null {
   }
 }
 
+
+/** Signed-in users: persist to the database too (ignored when signed out). */
+function pushToServer(body: object) {
+  fetch("/api/me", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).catch(
+    () => {},
+  );
+}
+
+async function pullFromServer<T>(key: "journey" | "sharing"): Promise<T | null> {
+  try {
+    const res = await fetch("/api/me");
+    if (!res.ok) return null;
+    const data = (await res.json()) as Record<string, unknown>;
+    return (data[key] as T) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function save(p: SharingPreferences) {
+  pushToServer({ sharing: p });
   try {
     localStorage.setItem(KEY, JSON.stringify(p));
   } catch {
     // Storage unavailable: preferences live in memory for this visit.
   }
+}
+
+/**
+ * Prefill what companies would see (e.g. skills and headline from a LinkedIn
+ * import) without opting the engineer in. Visibility stays off until they
+ * choose it on /sharing.
+ */
+export function seedSharing(shared: Partial<SharingPreferences["shared"]>) {
+  const current = load() ?? defaultSharing;
+  save({ ...current, shared: { ...current.shared, ...shared } });
 }
 
 export function useSharing() {
@@ -62,6 +95,9 @@ export function useSharing() {
     const stored = load();
     if (stored) setPrefs(stored); // eslint-disable-line react-hooks/set-state-in-effect
     setReady(true);
+    pullFromServer<SharingPreferences>("sharing").then((server) => {
+      if (server) setPrefs({ ...defaultSharing, ...server });
+    });
   }, []);
 
   const update = useCallback((next: SharingPreferences) => {
