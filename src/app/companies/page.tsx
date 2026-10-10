@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AustinPlaybook, CompanyPackages, SimulatedTalentBanner, SkilledHere, TrustBox } from "@/components/companies/CompanySections";
-import { RequestTalentForm } from "@/components/companies/RequestTalentForm";
 import { TalentExplorer } from "@/components/companies/TalentExplorer";
 import { fmt1, fmtInt, fmtPct } from "@/components/dashboard/format";
 import { StatTile } from "@/components/dashboard/StatTile";
@@ -43,11 +42,11 @@ export default function CompaniesPage() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link href="/companies/finder" className="rounded-full bg-coral px-6 py-3 font-semibold text-bg hover:opacity-90">
-            Open Talent Finder
+            Open your dashboard
           </Link>
-          <a href="#request" className="rounded-full border border-line px-6 py-3 font-medium text-ink hover:border-coral">
-            Request talent
-          </a>
+          <Link href="/companies/finder#market-rates" className="rounded-full border border-line px-6 py-3 font-medium text-ink hover:border-coral">
+            See market rates
+          </Link>
           <a href="#talent-map" className="rounded-full border border-line px-6 py-3 font-medium text-ink hover:border-coral">
             Explore the talent map
           </a>
@@ -101,14 +100,17 @@ export default function CompaniesPage() {
 
       <div className="mt-12 grid gap-6 lg:grid-cols-[3fr_2fr]">
         <section aria-labelledby="request">
-          <p className="font-mono text-xs tracking-widest text-coral">REQUEST TALENT</p>
+          <p className="font-mono text-xs tracking-widest text-coral">START HIRING</p>
           <h2 id="request" className="mt-1 scroll-mt-6 text-2xl font-bold text-ink">
-            Tell us who you&rsquo;re hiring
+            Tell Talent Finder who you&rsquo;re hiring
           </h2>
-          <p className="mt-2 mb-4 text-sm text-muted">
-            We introduce only engineers who are open to opportunities and chose to be visible.
+          <p className="mt-2 mb-4 max-w-xl text-sm text-muted">
+            Describe the role in plain language. Talent Finder shortlists your top 3 opted-in engineers, drafts the first
+            message and checks your pay band against Miami, Austin and NYC before you send.
           </p>
-          <RequestTalentForm />
+          <Link href="/companies/finder" className="inline-block rounded-full bg-coral px-6 py-3 font-semibold text-bg hover:opacity-90">
+            Open your dashboard
+          </Link>
         </section>
         <div className="lg:pt-16">
           <TrustBox />
