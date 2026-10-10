@@ -70,9 +70,9 @@ export function LoginForm({ linkedinEnabled = false }: { linkedinEnabled?: boole
           onClick={continueWithLinkedIn}
           className="mt-4 w-full rounded-full bg-[#0a66c2] px-5 py-3.5 text-base font-semibold text-white transition active:scale-[0.98]"
         >
-          Continue with LinkedIn
+          {linkedinEnabled ? "Continue with LinkedIn" : "Import my LinkedIn profile (PDF)"}
         </button>
-        <p className="mt-2 text-xs text-muted">Demo: upload your LinkedIn profile PDF. Read once, never stored.</p>
+        <p className="mt-2 text-xs text-muted">{linkedinEnabled ? "Signs you in with LinkedIn. Then upload your profile PDF so Pana knows your role and skills." : "On LinkedIn: your profile → More → Save to PDF. Read once, never stored."}</p>
       </section>
 
       <section className="rounded-2xl border border-line bg-surface shadow-card p-5">
