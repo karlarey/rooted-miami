@@ -43,6 +43,7 @@ Delivered as a **game**: side quests, levels (🌱 Seed → 🌿 Sprout → 🌳
 | [Tech stack](docs/tech-stack.md) | What we use and why; switching El Pana's provider |
 | [Research: why engineers leave](docs/research/why-engineers-leave.md) | Sourced stats |
 | [Research: what already exists](docs/research/existing-resources.md) | Miami resources and gaps |
+| [Research: pay and migration](docs/research/pay-and-migration.md) | Census in/out flows by sex and age; Miami vs Austin pay targets |
 
 ## Run it
 
