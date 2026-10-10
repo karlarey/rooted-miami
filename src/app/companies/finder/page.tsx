@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MarketRates } from "@/components/finder/MarketRates";
 import { TalentFinderPortal } from "@/components/finder/TalentFinderPortal";
 import { talentCards } from "@/data/talent-visibility";
 
 export const metadata: Metadata = {
-  title: "Talent Finder · Rooted for Business",
+  title: "Company dashboard · Rooted for Business",
   description: "Find engineers who live in Miami and opted in to hear from you. Every first message carries a fair, data-backed pay band.",
 };
 
@@ -33,7 +34,29 @@ export default function FinderPage() {
           </p>
         </header>
 
-        <TalentFinderPortal />
+        <nav aria-label="Dashboard sections" className="sticky top-[env(safe-area-inset-top,0px)] z-10 -mx-4 mb-8 flex gap-2 bg-rb-bg/90 px-4 py-3 backdrop-blur">
+          <a href="#talent-finder" className="rounded-full bg-rb-primary px-4 py-2 text-sm font-medium text-rb-on-primary">
+            1 · Talent Finder
+          </a>
+          <a href="#market-rates" className="rounded-full border border-rb-line px-4 py-2 text-sm font-medium hover:bg-rb-sage-soft">
+            2 · Market rates
+          </a>
+        </nav>
+
+        <div id="talent-finder" className="scroll-mt-20">
+          <TalentFinderPortal />
+        </div>
+
+        <section id="market-rates" aria-labelledby="rates-title" className="mt-20 scroll-mt-20">
+          <p className="text-xs font-medium tracking-widest text-rb-muted uppercase">Market rates</p>
+          <h2 id="rates-title" className="mt-1 font-display text-2xl font-semibold sm:text-3xl">
+            What engineers expect, by seniority and skill
+          </h2>
+          <p className="mt-2 mb-6 max-w-2xl text-rb-muted">
+            Miami against the two cities that recruit Miami engineers away. Price your roles here before you reach out.
+          </p>
+          <MarketRates />
+        </section>
 
         <footer className="mt-16 border-t border-rb-line pt-4 text-xs leading-relaxed text-rb-muted">
           Engineers are simulated (synthetic community members, not real people). Pay data: BLS OEWS May 2025 for the Miami,

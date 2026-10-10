@@ -36,6 +36,13 @@ export function TalentFinderPortal() {
   const [finder, setFinder] = useState<FinderResult | null>(null);
   const [composeFor, setComposeFor] = useState<ScoredCard | null>(null);
   const [sent, setSent] = useState<Opportunity[]>([]);
+  /** Engineers already shown in earlier shortlists for this search ("pull 3 new" skips them). */
+  const [passedOver, setPassedOver] = useState<Set<string>>(new Set());
+
+  const newSearch = (q: TalentQuery) => {
+    setPassedOver(new Set());
+    setQuery(q);
+  };
 
   const search = useCallback(async (q: TalentQuery) => {
     const p = new URLSearchParams();
@@ -58,31 +65,54 @@ export function TalentFinderPortal() {
   }, [loadSent]);
 
   const contacted = new Set(sent.filter((o) => o.status !== "passed").map((o) => o.engineerId));
+  const unseen = (results ?? []).filter((c) => !passedOver.has(c.engineerId));
+  const shortlist = unseen.slice(0, 3);
+  const remaining = Math.max(0, unseen.length - shortlist.length);
 
   return (
     <div className="font-ui">
       <AskTalentFinder
         onResult={(r) => {
           setFinder(r);
-          setQuery(r.query);
+          newSearch(r.query);
         }}
       />
 
       <section aria-labelledby="results" className="mt-12">
-        <p className="text-xs font-medium tracking-widest text-rb-muted uppercase">Opted-in talent</p>
+        <p className="text-xs font-medium tracking-widest text-rb-muted uppercase">
+          {finder ? `Shortlist · ${finder.headcount} × ${finder.role}` : "Shortlist"}
+        </p>
         <h2 id="results" className="mt-1 font-display text-2xl font-semibold text-rb-ink sm:text-3xl">
-          {results ? `${results.length} engineers open to hearing from you` : "Loading talent…"}
+          {!results ? "Loading talent…" : shortlist.length ? "Your top 3 candidates" : "No candidates left for this search"}
         </h2>
-        <Filters query={query} onChange={setQuery} />
+        <p className="mt-1 text-sm text-rb-muted">
+          {results && `${results.length} opted-in engineers match. Ranked by matching skills, then time rooted in Miami.`}
+        </p>
+        <Filters query={query} onChange={newSearch} />
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {results?.slice(0, 24).map((c) => (
-            <TalentCardView key={c.engineerId} c={c} contacted={contacted.has(c.engineerId)} onReach={() => setComposeFor(c)} />
+          {shortlist.map((c, i) => (
+            <TalentCardView key={c.engineerId} rank={passedOver.size + i + 1} c={c} contacted={contacted.has(c.engineerId)} onReach={() => setComposeFor(c)} />
           ))}
         </div>
-        {results && results.length === 0 && (
-          <p className={`${card} mt-6 text-rb-muted`}>No opted-in engineers match every filter. Try removing a skill or the neighborhood.</p>
+        {results && (
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <button
+              onClick={() => setPassedOver(new Set([...passedOver, ...shortlist.map((c) => c.engineerId)]))}
+              disabled={remaining === 0}
+              className={btnAccent}
+            >
+              {shortlist.some((c) => contacted.has(c.engineerId)) ? "No replies? Pull 3 new" : "Pull 3 new"}
+            </button>
+            <span className="text-sm text-rb-muted">
+              {remaining > 0 ? `${remaining} more matching engineer${remaining === 1 ? "" : "s"} in the pool` : "You've seen every match. Widen the filters to find more."}
+            </span>
+            {passedOver.size > 0 && (
+              <button onClick={() => setPassedOver(new Set())} className="text-sm text-rb-muted underline hover:text-rb-ink">
+                Back to the top 3
+              </button>
+            )}
+          </div>
         )}
-        {results && results.length > 24 && <p className="mt-4 text-sm text-rb-muted">Showing the top 24. Narrow the filters to see more specific matches.</p>}
       </section>
 
       <SentPipeline sent={sent} onRefresh={loadSent} />
@@ -250,11 +280,14 @@ function Filters({ query, onChange }: { query: TalentQuery; onChange: (q: Talent
   );
 }
 
-function TalentCardView({ c, contacted, onReach }: { c: ScoredCard; contacted: boolean; onReach: () => void }) {
+function TalentCardView({ c, rank, contacted, onReach }: { c: ScoredCard; rank: number; contacted: boolean; onReach: () => void }) {
   return (
     <article className={`${card} flex flex-col`}>
       <div className="flex items-start justify-between gap-2">
-        <h3 className="font-display text-lg leading-snug font-semibold text-rb-ink">{c.headline}</h3>
+        <div>
+          <p className="text-xs font-medium text-rb-muted">#{rank}</p>
+          <h3 className="font-display text-lg leading-snug font-semibold text-rb-ink">{c.headline}</h3>
+        </div>
         <span className={`${pill} shrink-0 bg-rb-sage-soft text-rb-ink`}>{levelBadge[c.level]}</span>
       </div>
       <p className="mt-1 text-sm text-rb-muted">
