@@ -43,3 +43,6 @@ next-env.d.ts
 
 # Claude Code agent worktrees
 .claude/
+
+# Local SQLite database
+local.db*

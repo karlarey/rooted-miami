@@ -14,12 +14,14 @@ export interface Journey {
   profile: Profile;
   accepted: string[];
   checkIns: CheckIn[];
+  /** Event ids the engineer signed up for (src/data/events.ts). */
+  rsvps?: string[];
 }
 
 const KEY = "rooted.journey.v1";
 
 function initial(profile: Profile = alex): Journey {
-  return { profile, accepted: [], checkIns: [checkInFor("seed", 0)] };
+  return { profile, accepted: [], checkIns: [checkInFor("seed", 0)], rsvps: [] };
 }
 
 function load(): Journey | null {
@@ -31,7 +33,27 @@ function load(): Journey | null {
   }
 }
 
+
+/** Signed-in users: persist to the database too (ignored when signed out). */
+function pushToServer(body: object) {
+  fetch("/api/me", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).catch(
+    () => {},
+  );
+}
+
+async function pullFromServer<T>(key: "journey" | "sharing"): Promise<T | null> {
+  try {
+    const res = await fetch("/api/me");
+    if (!res.ok) return null;
+    const data = (await res.json()) as Record<string, unknown>;
+    return (data[key] as T) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function save(j: Journey) {
+  pushToServer({ journey: j });
   try {
     localStorage.setItem(KEY, JSON.stringify(j));
   } catch {
@@ -47,7 +69,17 @@ export function useJourney() {
     // Hydrate from localStorage after mount so server and client render match.
     const stored = load();
     if (stored) setJourney(stored); // eslint-disable-line react-hooks/set-state-in-effect
-    setReady(true);
+    // The database wins when signed in. Wait for it before showing anything,
+    // so a stale browser copy (e.g. the demo persona) never flashes.
+    pullFromServer<Journey>("journey").then((server) => {
+      if (server) {
+        setJourney(server);
+        try {
+          localStorage.setItem(KEY, JSON.stringify(server));
+        } catch {}
+      }
+      setReady(true);
+    });
   }, []);
 
   const update = useCallback((fn: (j: Journey) => Journey) => {
@@ -89,7 +121,17 @@ export function useJourney() {
     [update],
   );
 
+  const rsvp = useCallback(
+    (eventId: string, going: boolean) =>
+      update((j) => {
+        const current = j.rsvps ?? [];
+        const rsvps = going ? [...new Set([...current, eventId])] : current.filter((r) => r !== eventId);
+        return { ...j, rsvps };
+      }),
+    [update],
+  );
+
   const reset = useCallback(() => update(() => initial(alex)), [update]);
 
-  return { journey, ready, level: levelFor(journey.profile.completedQuests), start, accept, complete, reset };
+  return { journey, ready, level: levelFor(journey.profile.completedQuests), start, accept, complete, rsvp, reset };
 }

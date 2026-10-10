@@ -1,4 +1,5 @@
 import type { LevelId, PackageItem } from "./types";
+import { city } from "./city";
 
 export const levels: Record<LevelId, { emoji: string; name: string; milestone: string; earnedBy: string }> = {
   seed: {
@@ -17,7 +18,7 @@ export const levels: Record<LevelId, { emoji: string; name: string; milestone: s
     emoji: "🌳",
     name: "Rooted",
     milestone: "Belonging",
-    earnedBy: "Belonging up, \"I'm a Miamian: yes,\" mentoring or volunteering",
+    earnedBy: `Belonging up, "I'm a ${city.demonym}: yes," mentoring or volunteering`,
   },
   grove: {
     emoji: "🌲",
@@ -32,7 +33,7 @@ export const levelOrder: LevelId[] = ["seed", "sprout", "rooted", "grove"];
 export const packageItems: Record<PackageItem, { emoji: string; name: string; blurb: string }> = {
   community: { emoji: "🤝", name: "Community", blurb: "Rituals that outlast the people who come and go" },
   purpose: { emoji: "🎓", name: "Purpose", blurb: "Students and causes that need you here" },
-  identity: { emoji: "🌴", name: "Identity", blurb: "Becoming a Miamian" },
+  identity: { emoji: "🌴", name: "Identity", blurb: `Becoming a ${city.demonym}` },
   career: { emoji: "💼", name: "Career & skills", blurb: "A next job here: AI skills, hackathons, the tech map, warm intros" },
   practical: { emoji: "🧭", name: "Practical start", blurb: "Neighborhood, transit, cost heads-up" },
 };

@@ -118,7 +118,7 @@ export function LevelUpCelebration({ level, onClose }: LevelUpCelebrationProps) 
         aria-describedby={bodyId}
         className="rooted-card relative w-full max-w-sm overflow-hidden rounded-3xl border border-line bg-surface p-6 text-center shadow-xl"
       >
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-teal-soft to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-leaf-soft to-transparent" />
         <div aria-hidden className="pointer-events-none absolute inset-x-0 top-20 h-0">
           {confetti.map((c) => (
             <span
@@ -131,10 +131,10 @@ export function LevelUpCelebration({ level, onClose }: LevelUpCelebrationProps) 
           ))}
         </div>
 
-        <p className="relative text-xs font-semibold uppercase tracking-widest text-teal">
+        <p className="relative text-xs font-semibold uppercase tracking-widest text-leaf">
           ¡Felicidades! · Stage {step} of {levelOrder.length}
         </p>
-        <div aria-hidden className="rooted-emoji relative mx-auto mt-4 grid size-24 place-items-center rounded-full bg-coral-soft">
+        <div aria-hidden className="rooted-emoji relative mx-auto mt-4 grid size-24 place-items-center rounded-full bg-accent-soft">
           <span className="rooted-emoji-inner text-5xl">{info.emoji}</span>
         </div>
 
@@ -154,14 +154,14 @@ export function LevelUpCelebration({ level, onClose }: LevelUpCelebrationProps) 
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="rounded-full bg-coral px-5 py-3 text-sm font-semibold text-surface outline-offset-2 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-coral"
+            className="rounded-full bg-primary px-5 py-3 text-sm font-semibold text-surface outline-offset-2 hover:opacity-90 focus-visible:outline-2 focus-visible:outline-brand"
           >
             ¡Vamos! Keep going
           </button>
           <Link
             href="/stages"
             onClick={onClose}
-            className="rounded-full px-5 py-2 text-sm font-medium text-teal outline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-teal"
+            className="rounded-full px-5 py-2 text-sm font-medium text-leaf outline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-leaf"
           >
             See your path
           </Link>

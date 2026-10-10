@@ -94,6 +94,17 @@ We give newcomers to Miami a **welcome package** on arrival: a community that st
 - **Proactive:** steps in at risk moments (3 weeks quiet, lease renewal, coworker leaves, layoff) *before* the decision to leave.
 - **Guardrails:** points to human help (988) on real distress; opt-in sharing; intent-to-leave data stays private; human-first.
 
+## Talent Finder: the companies' agent
+
+El Pana is the engineer's buddy; Talent Finder is the company's partner. (Not named after LinkedIn: we're not affiliated, and we never use scraped LinkedIn data.)
+
+- **Find talent:** "I need 3 senior backend engineers" → matching opted-in engineers from the talent map (aggregates first, intros only with consent).
+- **Pay check:** uses `competitiveness()` in `src/lib/pay-math.ts`, the same numbers engineers see in "Know your number."
+- **Write the job post:** a fair, transparent pay band, plus why Miami and why your team. Can be shared to LinkedIn.
+- **Community presence:** co-host a hackathon or AI training, sponsor a ritual, mentor students.
+- **Retention:** enroll relocated hires in the Rooted welcome package and El Pana.
+- **Guardrails:** never sees wellbeing or intent-to-stay data; helps companies compete on pay, never lower it.
+
 ## Recommendation engine
 
 - **Based on you:** onboarding conversation → background, life situation, interests, goals, time.
@@ -116,6 +127,8 @@ We give newcomers to Miami a **welcome package** on arrival: a community that st
 **Pitch framing:** lead with *keeping people in Miami*. Portability ("rooted" skills carry to the next city) is a vision slide, not the headline.
 
 ## Open items
+- [ ] **Follow-up: LinkedIn data-export import.** Users upload the ZIP from LinkedIn → Settings → Data privacy → *Get a copy of your data* (positions, skills, education, certifications as CSV). Richer than the PDF. We never scrape LinkedIn or use third-party LinkedIn data APIs; LinkedIn's API only shares name, email and photo with non-partner apps.
+- [ ] Real "Sign in with LinkedIn": create a LinkedIn developer app (OpenID Connect), add `LINKEDIN_CLIENT_ID` / `LINKEDIN_CLIENT_SECRET`, redirect URL `/api/auth/callback/linkedin`
 - [ ] Interviews with friends who left + transplant survey (primary evidence)
 - [ ] Trademark / app store / domain check for "Rooted"
 - [ ] Verify uncertain resources (Venture Miami, The LAB, Code for Miami, PyMiami, Miami Hack Week)

@@ -4,6 +4,7 @@ import { levelOrder, levels } from "@/lib/levels";
 import { nextSteps } from "@/lib/progress";
 import type { LevelId } from "@/lib/types";
 import { stageCopy } from "./copy";
+import { city } from "@/lib/city";
 
 export interface LevelPathProps {
   /** Current level, usually `useJourney().level`. */
@@ -56,7 +57,7 @@ function NextSteps({ steps, nextLevel }: { steps: string[]; nextLevel?: LevelId 
       <ul className="mt-1.5 space-y-1">
         {steps.map((s) => (
           <li key={s} className="flex gap-2 text-sm text-ink">
-            <span aria-hidden className="text-coral">
+            <span aria-hidden className="text-brand">
               →
             </span>
             {s}
@@ -70,7 +71,7 @@ function NextSteps({ steps, nextLevel }: { steps: string[]; nextLevel?: LevelId 
 function CompactPath({ level, steps, nextLevel }: { level: LevelId; steps: string[]; nextLevel?: LevelId }) {
   const current = levelOrder.indexOf(level);
   return (
-    <section aria-label="Your stage" className="rounded-2xl border border-line bg-surface p-3 sm:p-4">
+    <section aria-label="Your stage" className="rounded-2xl border border-line bg-surface shadow-card p-3 sm:p-4">
       <ol className="flex items-center">
         {levelOrder.map((id, i) => {
           const state = stateOf(id, level);
@@ -79,7 +80,7 @@ function CompactPath({ level, steps, nextLevel }: { level: LevelId; steps: strin
               {i > 0 && (
                 <span
                   aria-hidden
-                  className={`mx-1 h-1 flex-1 rounded-full ${i <= current ? "bg-teal" : "bg-line"}`}
+                  className={`mx-1 h-1 flex-1 rounded-full ${i <= current ? "bg-leaf" : "bg-line"}`}
                 />
               )}
               <span
@@ -87,9 +88,9 @@ function CompactPath({ level, steps, nextLevel }: { level: LevelId; steps: strin
                 title={`${levels[id].name}: ${levels[id].milestone}`}
                 className={`grid shrink-0 place-items-center rounded-full ${
                   state === "current"
-                    ? "size-10 bg-coral-soft ring-2 ring-coral"
+                    ? "size-10 bg-accent-soft ring-2 ring-brand"
                     : state === "done"
-                      ? "size-8 bg-teal-soft"
+                      ? "size-8 bg-leaf-soft"
                       : "size-8 bg-surface-2 opacity-50 grayscale"
                 }`}
               >
@@ -112,7 +113,7 @@ function CompactPath({ level, steps, nextLevel }: { level: LevelId; steps: strin
           </span>
           <span className="text-muted"> · {levels[level].milestone}</span>
         </p>
-        <Link href="/stages" className="text-xs font-medium text-teal underline-offset-2 hover:underline">
+        <Link href="/stages" className="text-xs font-medium text-leaf underline-offset-2 hover:underline">
           How stages work
         </Link>
       </div>
@@ -139,7 +140,7 @@ function FullPath({
   nextLevel?: LevelId;
 }) {
   return (
-    <ol aria-label="Your path to becoming a Miamian" className="relative">
+    <ol aria-label={`Your path to becoming a ${city.demonym}`} className="relative">
       {levelOrder.map((id, i) => {
         const state = stateOf(id, level);
         const info = levels[id];
@@ -156,9 +157,9 @@ function FullPath({
               <span
                 className={`grid size-12 place-items-center rounded-full border-2 ${
                   state === "current"
-                    ? "border-coral bg-coral-soft"
+                    ? "border-brand bg-accent-soft"
                     : state === "done"
-                      ? "border-teal bg-teal-soft"
+                      ? "border-leaf bg-leaf-soft"
                       : "border-line bg-surface-2"
                 }`}
               >
@@ -169,7 +170,7 @@ function FullPath({
               {!last && (
                 <span
                   aria-hidden
-                  className={`mt-1 w-1 flex-1 rounded-full ${state === "done" ? "bg-teal" : "bg-line"}`}
+                  className={`mt-1 w-1 flex-1 rounded-full ${state === "done" ? "bg-leaf" : "bg-line"}`}
                 />
               )}
             </div>
@@ -177,7 +178,7 @@ function FullPath({
             {/* Card */}
             <div
               className={`min-w-0 flex-1 rounded-2xl border p-4 ${
-                state === "current" ? "border-coral bg-surface shadow-sm" : "border-line bg-surface"
+                state === "current" ? "border-brand bg-surface shadow-sm" : "border-line bg-surface"
               } ${state === "upcoming" ? "opacity-80" : ""}`}
             >
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -214,7 +215,7 @@ function StateBadge({ state }: { state: StageState }) {
   }
   if (state === "done") {
     return (
-      <span className="rounded-full bg-teal-soft px-2 py-0.5 text-xs font-semibold text-teal">✓ Reached</span>
+      <span className="rounded-full bg-leaf-soft px-2 py-0.5 text-xs font-semibold text-leaf">✓ Reached</span>
     );
   }
   return <span className="rounded-full bg-surface-2 px-2 py-0.5 text-xs text-muted">Ahead</span>;

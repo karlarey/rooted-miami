@@ -14,9 +14,9 @@ export type Answer =
   | { kind: "skip"; label: string };
 
 const chip =
-  "rounded-full border px-4 py-2 text-sm font-medium transition active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal";
-const chipIdle = "border-line bg-surface text-ink hover:border-coral";
-const chipOn = "border-teal bg-teal-soft text-ink";
+  "rounded-full border px-4 py-2 text-sm font-medium transition active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf";
+const chipIdle = "border-line bg-surface text-ink hover:border-brand";
+const chipOn = "border-leaf bg-leaf-soft text-ink";
 
 export function AnswerBar({ step, onAnswer }: { step: Step; onAnswer: (a: Answer) => void }) {
   // Keyed by step id in the parent, so local state resets for each question.
@@ -72,7 +72,7 @@ function MultiAnswer({ step, onAnswer }: { step: MultiStep; onAnswer: (a: Answer
               onClick={() => toggle(o.value)}
             >
               {o.label}
-              {on && <span className="ml-1 text-teal">✓</span>}
+              {on && <span className="ml-1 text-leaf">✓</span>}
             </button>
           );
         })}
@@ -81,7 +81,7 @@ function MultiAnswer({ step, onAnswer }: { step: MultiStep; onAnswer: (a: Answer
         <button
           type="button"
           disabled={picked.length === 0}
-          className="flex-1 rounded-full bg-coral px-5 py-3 text-base font-semibold text-bg transition active:scale-[0.98] disabled:opacity-40"
+          className="flex-1 rounded-full bg-primary px-5 py-3 text-base font-semibold text-on-primary transition active:scale-[0.98] disabled:opacity-40"
           onClick={() =>
             onAnswer({
               kind: "multi",
@@ -160,13 +160,13 @@ function TextBox({
         maxLength={140}
         placeholder={placeholder}
         onChange={(e) => setValue(e.target.value)}
-        className="h-11 min-w-0 flex-1 rounded-full border border-line bg-surface px-4 text-base text-ink placeholder:text-muted focus:border-teal focus:outline-none"
+        className="h-11 min-w-0 flex-1 rounded-full border border-line bg-surface px-4 text-base text-ink placeholder:text-muted focus:border-leaf focus:outline-none"
       />
       <button
         type="submit"
         disabled={!text}
         aria-label="Send"
-        className="h-11 w-11 shrink-0 rounded-full bg-coral text-lg font-bold text-bg transition active:scale-95 disabled:opacity-40"
+        className="h-11 w-11 shrink-0 rounded-full bg-primary text-lg font-bold text-on-primary transition active:scale-95 disabled:opacity-40"
       >
         ↑
       </button>

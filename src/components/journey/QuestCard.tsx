@@ -24,7 +24,7 @@ export function QuestCard({ quest, reasons = [], status, onAccept, onComplete }:
           {item.emoji} {item.name}
         </span>
         <span className="flex gap-2">
-          {quest.recurring && <span className="rounded-full bg-teal-soft px-2 py-0.5 text-teal">weekly</span>}
+          {quest.recurring && <span className="rounded-full bg-leaf-soft px-2 py-0.5 text-leaf">weekly</span>}
           <span>
             {levels[quest.level].emoji} · {hours}
           </span>
@@ -36,14 +36,14 @@ export function QuestCard({ quest, reasons = [], status, onAccept, onComplete }:
       {quest.place && <p className="mt-1 text-xs text-muted">📍 {quest.place}</p>}
 
       {reasons.length > 0 && status !== "done" && (
-        <p className="mt-2 text-xs text-coral">Why you: {reasons.slice(0, 2).join(" · ")}</p>
+        <p className="mt-2 text-xs text-brand">Why you: {reasons.slice(0, 2).join(" · ")}</p>
       )}
 
       <div className="mt-3">
         {status === "suggested" && (
           <button
             onClick={onAccept}
-            className="rounded-full border border-coral px-4 py-1.5 text-sm font-medium text-coral hover:bg-coral-soft"
+            className="rounded-full border border-brand px-4 py-1.5 text-sm font-medium text-brand hover:bg-accent-soft"
           >
             Accept quest
           </button>
@@ -51,12 +51,12 @@ export function QuestCard({ quest, reasons = [], status, onAccept, onComplete }:
         {status === "accepted" && (
           <button
             onClick={onComplete}
-            className="rounded-full bg-coral px-4 py-1.5 text-sm font-medium text-white hover:opacity-90"
+            className="rounded-full bg-primary px-4 py-1.5 text-sm font-medium text-on-primary hover:opacity-90"
           >
             I did it ✓
           </button>
         )}
-        {status === "done" && <span className="text-sm font-medium text-teal">Completed ✓</span>}
+        {status === "done" && <span className="text-sm font-medium text-leaf">Completed ✓</span>}
       </div>
     </article>
   );

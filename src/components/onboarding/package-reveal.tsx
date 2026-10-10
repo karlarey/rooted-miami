@@ -37,10 +37,10 @@ export function PackageReveal({ profile, onContinue }: { profile: Profile; onCon
 
   return (
     <div className="flex flex-1 flex-col px-4 pt-6 pb-8">
-      <p className="text-sm font-semibold tracking-wide text-coral uppercase">Your welcome package</p>
+      <p className="text-sm font-semibold tracking-wide text-brand uppercase">Your welcome package</p>
       <h1 className="mt-1 text-3xl leading-tight font-bold text-ink">¡Bienvenido a Miami, {profile.name}!</h1>
       <p className="mt-2 text-muted">
-        Here&apos;s where your journey starts. Do these for real, out in the city, then tell El Pana how it went.
+        Here&apos;s where your journey starts. Do these for real, out in the city, then tell Pana how it went.
       </p>
 
       <div className="mt-5 flex items-center gap-3 rounded-2xl border border-line bg-surface-2 px-4 py-3">
@@ -59,8 +59,8 @@ export function PackageReveal({ profile, onContinue }: { profile: Profile; onCon
         {pkg.map(({ quest, reasons }) => {
           const item = packageItems[quest.item];
           return (
-            <li key={quest.id} className="rounded-2xl border border-line bg-surface p-4">
-              <p className="text-xs font-semibold tracking-wide text-teal uppercase">
+            <li key={quest.id} className="rounded-2xl border border-line bg-surface shadow-card p-4">
+              <p className="text-xs font-semibold tracking-wide text-leaf uppercase">
                 <span aria-hidden>{item.emoji}</span> {item.name}
               </p>
               <p className="mt-1 text-lg font-semibold text-ink">{quest.title}</p>
@@ -72,7 +72,7 @@ export function PackageReveal({ profile, onContinue }: { profile: Profile; onCon
                 {quest.recurring && <Tag>🔁 Weekly</Tag>}
               </div>
               {reasons[0] && (
-                <p className="mt-3 rounded-lg bg-coral-soft px-3 py-2 text-xs text-ink">
+                <p className="mt-3 rounded-lg bg-accent-soft px-3 py-2 text-xs text-ink">
                   <span className="font-semibold">Why you:</span> {reasons[0]}
                 </p>
               )}
@@ -85,7 +85,7 @@ export function PackageReveal({ profile, onContinue }: { profile: Profile; onCon
         <button
           type="button"
           onClick={onContinue}
-          className="w-full rounded-full bg-coral px-5 py-3.5 text-base font-semibold text-bg transition active:scale-[0.98]"
+          className="w-full rounded-full bg-primary px-5 py-3.5 text-base font-semibold text-on-primary transition active:scale-[0.98]"
         >
           Start my journey →
         </button>
