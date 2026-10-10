@@ -7,6 +7,7 @@ import { useJourney } from "@/lib/use-journey";
 import type { Profile } from "@/lib/types";
 import { AnswerBar, type Answer } from "./answer-bar";
 import { MyBubble, PanaAvatar, PanaBubble, TypingBubble } from "./bubbles";
+import { seedSharing } from "@/lib/sharing";
 import { ImportConfirm, ImportOffer, type ImportSuccess } from "./linkedin-import";
 import { BuildingPackage, PackageReveal } from "./package-reveal";
 import {
@@ -167,7 +168,21 @@ export function OnboardingChat({ initialName }: { initialName?: string }) {
   if (profile) {
     return (
       <Shell>
-        <PackageReveal profile={profile} onContinue={() => router.push("/journey")} />
+        <PackageReveal
+          profile={profile}
+          onContinue={() => {
+            // Carry LinkedIn details into "What companies see" (still private until opted in).
+            seedSharing({
+              skills: imported?.skills ?? [],
+              headline: imported?.role,
+              stack: profile.stack,
+              seniority: profile.seniority,
+              neighborhood: profile.livesIn,
+              workModes: [profile.worksFrom],
+            });
+            router.push("/sharing?next=/journey");
+          }}
+        />
       </Shell>
     );
   }

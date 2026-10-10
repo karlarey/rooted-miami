@@ -54,6 +54,16 @@ function save(p: SharingPreferences) {
   }
 }
 
+/**
+ * Prefill what companies would see (e.g. skills and headline from a LinkedIn
+ * import) without opting the engineer in. Visibility stays off until they
+ * choose it on /sharing.
+ */
+export function seedSharing(shared: Partial<SharingPreferences["shared"]>) {
+  const current = load() ?? defaultSharing;
+  save({ ...current, shared: { ...current.shared, ...shared } });
+}
+
 export function useSharing() {
   const [prefs, setPrefs] = useState<SharingPreferences>(defaultSharing);
   const [ready, setReady] = useState(false);
