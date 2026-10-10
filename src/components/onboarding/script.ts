@@ -1,3 +1,4 @@
+import { seniorityLabels, stackLabels, type Seniority, type Stack } from "@/data/pay";
 import type { Interest, Neighborhood, Profile } from "@/lib/types";
 
 /**
@@ -115,6 +116,39 @@ const impactOptions: { label: string; value: Interest }[] = [
 
 const impactValues = impactOptions.map((o) => o.value);
 
+const stackEmoji: Record<Stack, string> = {
+  backend: "⚙️",
+  frontend: "🎨",
+  fullstack: "🧩",
+  "data-ml": "📊",
+  mobile: "📱",
+  devops: "☁️",
+  security: "🔐",
+  product: "🧭",
+};
+
+function stackChoices(): Choice[] {
+  return (Object.keys(stackLabels) as Stack[]).map((s) => ({
+    label: `${stackEmoji[s]} ${stackLabels[s]}`,
+    apply: (d: Draft) => ({ ...d, stack: s, role: d.role ?? roleForStack(s) }),
+  }));
+}
+
+const seniorityReplies: Record<Seniority, string> = {
+  junior: "Early days, love it. Miami's senior engineers are going to want to meet you.",
+  mid: "Mid-level, the sweet spot. Lots of doors open from here.",
+  senior: "Senior, nice. People here are going to want to learn from you.",
+  staff: "Staff+! Miami needs more of you. Seriously.",
+};
+
+/** "Backend engineer", "Product manager"… for when we only know the stack. */
+export function roleForStack(s: Stack): string {
+  if (s === "product") return "Product manager";
+  if (s === "data-ml") return "Data / ML engineer";
+  if (s === "devops") return "Platform engineer";
+  return `${stackLabels[s]} engineer`;
+}
+
 export function introLines(name?: string): string[] {
   return [
     `¡Bienvenido a Miami${name ? `, ${name}` : ""}! 👋`,
@@ -136,6 +170,7 @@ export const steps: Step[] = [
   {
     id: "movedFrom",
     kind: "single",
+    when: (d) => !d.movedFrom,
     say: ["So where'd you move from?"],
     choices: [
       {
@@ -218,6 +253,24 @@ export const steps: Step[] = [
     choices: officeChoices,
   },
   {
+    id: "stack",
+    kind: "single",
+    when: (d) => !d.stack,
+    say: ["What kind of work do you do?"],
+    choices: stackChoices(),
+  },
+  {
+    id: "seniority",
+    kind: "single",
+    when: (d) => !d.seniority,
+    say: ["And where are you in your career?"],
+    choices: (["junior", "mid", "senior", "staff"] as Seniority[]).map((s) => ({
+      label: seniorityLabels[s],
+      apply: (d: Draft) => ({ ...d, seniority: s }),
+      reply: seniorityReplies[s],
+    })),
+  },
+  {
     id: "household",
     kind: "single",
     say: ["Did you come solo or with people?"],
@@ -296,6 +349,7 @@ export const steps: Step[] = [
   {
     id: "languages",
     kind: "single",
+    when: (d) => !d.languages?.length,
     say: ["¿Y tu español? How's your Spanish?"],
     choices: [
       {
@@ -337,7 +391,7 @@ export function buildProfile(d: Draft): Profile {
     name: d.name?.trim() || "Friend",
     movedFrom: d.movedFrom ?? "somewhere else",
     monthsInMiami: 0,
-    role: d.role ?? "Engineer",
+    role: d.role ?? (d.stack ? roleForStack(d.stack) : "Engineer"),
     livesIn,
     worksIn: d.worksIn ?? livesIn,
     worksFrom: d.worksFrom ?? "office",
@@ -347,6 +401,8 @@ export function buildProfile(d: Draft): Profile {
     missesMost: d.missesMost ?? "",
     weekendHours: d.weekendHours ?? 4,
     languages: d.languages ?? ["English"],
+    ...(d.stack ? { stack: d.stack } : {}),
+    ...(d.seniority ? { seniority: d.seniority } : {}),
     completedQuests: [],
   };
 }
@@ -356,4 +412,47 @@ export function nextStepIndex(from: number, d: Draft): number {
     if (!steps[i].when || steps[i].when!(d)) return i;
   }
   return -1;
+}
+
+/* ── Optional first step: import from a LinkedIn PDF ─────────────────────── */
+
+/** What /api/profile/import returns in `fields`. */
+export type ImportedFields = Pick<Draft, "role" | "movedFrom" | "languages" | "stack" | "seniority"> & {
+  skills: string[];
+};
+
+export const importOfferLines = [
+  "Got a LinkedIn profile? Drop the PDF and I'll skip the boring questions.",
+  "(On LinkedIn: your profile → More → Save to PDF.)",
+];
+
+/** "Backend engineer, senior, from New York City" (whatever parts we found). */
+export function importSummary(f: ImportedFields): string {
+  const role = f.role ?? (f.stack ? roleForStack(f.stack) : undefined);
+  const parts = [
+    role,
+    f.seniority ? seniorityLabels[f.seniority].toLowerCase() : undefined,
+    f.movedFrom ? `from ${f.movedFrom}` : undefined,
+  ].filter(Boolean);
+  return parts.join(", ");
+}
+
+export function importFoundLines(f: ImportedFields): string[] {
+  const summary = importSummary(f);
+  return [
+    "Got it 👀",
+    ...(f.skills.length ? [`I see ${f.skills.slice(0, 4).join(", ")}${f.skills.length > 4 ? " and more" : ""}.`] : []),
+    `${summary.charAt(0).toUpperCase()}${summary.slice(1)}: did I get that right?`,
+  ];
+}
+
+/** Fold confirmed imported fields into the draft (only the ones we got). */
+export function applyImport(d: Draft, f: ImportedFields): Draft {
+  const next: Draft = { ...d };
+  if (f.role) next.role = f.role;
+  if (f.stack) next.stack = f.stack;
+  if (f.seniority) next.seniority = f.seniority;
+  if (f.movedFrom) next.movedFrom = f.movedFrom;
+  if (f.languages?.length) next.languages = f.languages;
+  return next;
 }
