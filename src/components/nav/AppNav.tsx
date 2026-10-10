@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useRoles } from "@/lib/roles";
 
 /** Engineer-side sections. Order = tab order; `crumb` is the breadcrumb label. */
@@ -15,7 +15,8 @@ const sections = [
 
 export function AppNav() {
   const pathname = usePathname();
-  const { hasBusiness } = useRoles();
+  const router = useRouter();
+  const { roles, hasBusiness, update: updateRoles } = useRoles();
   const current = sections.find((s) => pathname === s.href || pathname.startsWith(`${s.href}/`));
 
   return (
@@ -26,6 +27,18 @@ export function AppNav() {
             🌱 Rooted <span className="text-leaf">Miami</span>
           </Link>
           <div className="flex items-center gap-3">
+            {!hasBusiness && (
+              <button
+                type="button"
+                onClick={() => {
+                  updateRoles([...new Set([...roles, "company" as const])]);
+                  router.push("/companies");
+                }}
+                className="rounded-full border border-brand px-3 py-1 text-xs font-semibold text-brand hover:bg-accent-soft"
+              >
+                I&rsquo;m hiring
+              </button>
+            )}
             {hasBusiness && (
               <div className="flex rounded-full border border-line p-0.5 text-xs font-semibold" aria-label="Switch profile">
                 <span className="rounded-full bg-primary px-3 py-1 text-on-primary">People</span>
