@@ -7,6 +7,7 @@ import { quests } from "@/data/quests";
 import { levelOrder, levels, packageItems } from "@/lib/levels";
 import { useJourney } from "@/lib/use-journey";
 import type { CheckIn } from "@/lib/types";
+import { city, tagline } from "@/lib/city";
 
 const miamianLabel: Record<CheckIn["miamian"], string> = { yes: "Yes", "not-yet": "Not yet", no: "No" };
 
@@ -24,7 +25,7 @@ const whyReal = [
   {
     emoji: "📈",
     title: "Checked against how you feel",
-    body: "When you grow a stage, Pana asks five quick questions: intent to stay, life satisfaction, people you can call, belonging, and \"Are you a Miamian?\"",
+    body: `When you grow a stage, Pana asks five quick questions: intent to stay, life satisfaction, people you can call, belonging, and "Are you a ${city.demonym}?"`,
   },
   {
     emoji: "🌲",
@@ -43,9 +44,9 @@ export default function StagesPage() {
     <main className="mx-auto max-w-2xl px-4 pb-16 pt-6 sm:pt-10">
       <header>
         <p className="text-xs font-semibold uppercase font-semibold uppercase tracking-widest text-brand">Your stages</p>
-        <h1 className="mt-2 text-3xl font-bold leading-tight text-ink sm:text-4xl">From newcomer to Miamian</h1>
+        <h1 className="mt-2 text-3xl font-bold leading-tight text-ink sm:text-4xl">{tagline}</h1>
         <p className="mt-3 text-base text-muted">
-          Seed, Sprout, Rooted, Grove. Four stages, each one a real milestone in making Miami home.
+          Seed, Sprout, Rooted, Grove. Four stages, each one a real milestone in making {city.name} home.
         </p>
       </header>
 
@@ -66,7 +67,7 @@ export default function StagesPage() {
             <dl className="mt-4 grid grid-cols-3 gap-2 text-center">
               <Stat label="Intent to stay" value={`${latest.intentToStay}/10`} />
               <Stat label="People to call" value={String(latest.peopleOutsideWork)} />
-              <Stat label="Miamian?" value={miamianLabel[latest.miamian]} />
+              <Stat label={`${city.demonym}?`} value={miamianLabel[latest.miamian]} />
             </dl>
           )}
         </div>

@@ -1,4 +1,5 @@
 import type { CheckIn } from "@/lib/types";
+import { city } from "@/lib/city";
 
 /** Intent-to-stay over time (0–10), drawn as an inline SVG line. */
 export function IntentChart({ checkIns }: { checkIns: CheckIn[] }) {
@@ -36,7 +37,7 @@ export function IntentChart({ checkIns }: { checkIns: CheckIn[] }) {
       <figcaption className="mt-1 text-xs text-muted">
         Intent to stay: <strong className="text-ink">{first.intentToStay}</strong> →{" "}
         <strong className="text-brand">{last.intentToStay}</strong> / 10 · People outside work:{" "}
-        <strong className="text-ink">{last.peopleOutsideWork}</strong> · Miamian?{" "}
+        <strong className="text-ink">{last.peopleOutsideWork}</strong> · {city.demonym}?{" "}
         <strong className="text-ink">{{ yes: "Yes", "not-yet": "Not yet", no: "No" }[last.miamian]}</strong>
       </figcaption>
     </figure>

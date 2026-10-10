@@ -1,6 +1,6 @@
 # Rooted 🌱
 
-**Your journey to becoming a Miamian, one side quest at a time.**
+**From newcomer to Miamian, one side quest at a time.**
 
 Rooted is an AI-powered platform for building belonging in a new city. It starts with Miami (**Rooted Miami**) and the people the city attracts but doesn't keep.
 

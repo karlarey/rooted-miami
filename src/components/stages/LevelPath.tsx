@@ -4,6 +4,7 @@ import { levelOrder, levels } from "@/lib/levels";
 import { nextSteps } from "@/lib/progress";
 import type { LevelId } from "@/lib/types";
 import { stageCopy } from "./copy";
+import { city } from "@/lib/city";
 
 export interface LevelPathProps {
   /** Current level, usually `useJourney().level`. */
@@ -139,7 +140,7 @@ function FullPath({
   nextLevel?: LevelId;
 }) {
   return (
-    <ol aria-label="Your path to becoming a Miamian" className="relative">
+    <ol aria-label={`Your path to becoming a ${city.demonym}`} className="relative">
       {levelOrder.map((id, i) => {
         const state = stateOf(id, level);
         const info = levels[id];
