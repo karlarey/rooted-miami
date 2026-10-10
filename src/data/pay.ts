@@ -32,7 +32,7 @@ export interface PayBenchmark {
   /** Annual base salary in USD, same role in New York City, for comparison. */
   nyc: number;
   /** Annual base salary in USD, same role in Austin, the top destination for engineers leaving Miami. */
-  austin?: number;
+  austin: number;
   /** Miami pay needed to match Austin's purchasing power (Austin x cost-of-living ratio). */
   miamiTarget?: number;
   source: "placeholder" | string;

@@ -11,7 +11,8 @@ export function PayCard({ profile }: { profile: Profile }) {
 
   const rows = [
     { label: "Miami employer", value: b.miamiLocal, highlight: true },
-    { label: "Remote, living in Miami", value: b.miamiRemote, highlight: false },
+    { label: "Remote, living in Miami (estimate)", value: b.miamiRemote, highlight: false },
+    { label: "Austin", value: b.austin, highlight: false },
     { label: "New York City", value: b.nyc, highlight: false },
   ];
   const max = Math.max(...rows.map((r) => r.value));
@@ -45,7 +46,30 @@ export function PayCard({ profile }: { profile: Profile }) {
           </li>
         ))}
       </ul>
-      {!isIllustrative(b) && b.source && <p className="mt-2 text-xs text-muted">Source: {b.source}</p>}
+      {b.miamiTarget && (
+        <p className="mt-3 rounded-xl bg-surface-2 p-3 text-sm">
+          To match Austin&rsquo;s buying power, Miami pay for this role would be <strong>{usd(b.miamiTarget)}</strong>,{" "}
+          {b.miamiTarget > b.miamiLocal ? (
+            <>
+              <strong className="text-coral">{usd(b.miamiTarget - b.miamiLocal)} more</strong> than Miami pays today.
+            </>
+          ) : (
+            "which Miami already pays."
+          )}
+        </p>
+      )}
+      {!isIllustrative(b) && b.source && (
+        <p className="mt-2 text-xs text-muted">
+          Source:{" "}
+          {b.sourceUrl ? (
+            <a href={b.sourceUrl} className="underline" target="_blank" rel="noreferrer">
+              {b.source}
+            </a>
+          ) : (
+            b.source
+          )}
+        </p>
+      )}
     </section>
   );
 }
