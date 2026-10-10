@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { seniorityLabels, stackLabels, type Seniority, type Stack } from "@/data/pay";
 import { publicHeadline, useSharing, type SharingPreferences, type WorkMode } from "@/lib/sharing";
+import { useRoles } from "@/lib/roles";
 import { useJourney } from "@/lib/use-journey";
 
 const workModes: WorkMode[] = ["office", "hybrid", "remote"];
@@ -25,6 +26,7 @@ function SharingForm() {
   const next = useSearchParams().get("next");
   const { journey, ready: journeyReady } = useJourney();
   const { prefs, ready, update } = useSharing();
+  const { roles, hasBusiness, update: updateRoles } = useRoles();
   const [draft, setDraft] = useState<SharingPreferences | null>(null);
 
   if (!ready || !journeyReady) return <p className="text-muted">Loading your settings…</p>;
@@ -73,6 +75,19 @@ function SharingForm() {
           onChange={(v) => set({ shareName: v })}
         />
       </section>
+
+      {p.openToMessages && (
+        <label className="block rounded-xl border border-line bg-surface p-4 text-sm">
+          <span className="block font-medium">Hide me from these companies</span>
+          <span className="block text-muted">Your current employer, for example. They can never find or message you.</span>
+          <input
+            className="mt-2 h-11 w-full rounded-xl border border-line bg-bg px-3"
+            value={p.hiddenFrom.join(", ")}
+            placeholder="Company names, comma separated"
+            onChange={(e) => set({ hiddenFrom: e.target.value.split(",").map((x) => x.trim()).filter(Boolean).slice(0, 10) })}
+          />
+        </label>
+      )}
 
       <fieldset className="space-y-4 rounded-2xl border border-line bg-surface shadow-card p-4" disabled={!p.openToMessages}>
         <legend className="px-1 font-semibold">What companies see</legend>
@@ -172,6 +187,13 @@ function SharingForm() {
           Companies never see your check-ins, wellbeing or whether you&rsquo;re thinking about leaving. Change this anytime.
         </p>
       </section>
+
+      <Toggle
+        label="I also hire engineers"
+        hint="Adds a Rooted for Business profile to your account. Your engineer data stays private from it."
+        checked={hasBusiness}
+        onChange={(v) => updateRoles(v ? [...new Set([...roles, "company" as const])] : roles.filter((r) => r !== "company"))}
+      />
 
       <button
         onClick={saveAndContinue}

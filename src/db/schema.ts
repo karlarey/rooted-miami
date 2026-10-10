@@ -1,5 +1,7 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
+export type Role = "engineer" | "company";
+
 /* Better Auth core tables. Passwords live hashed in account.password. */
 
 export const user = sqliteTable("user", {
@@ -61,5 +63,7 @@ export const userData = sqliteTable("user_data", {
     .references(() => user.id, { onDelete: "cascade" }),
   journey: text("journey", { mode: "json" }),
   sharing: text("sharing", { mode: "json" }),
+  /** "engineer" (Rooted for People) and/or "company" (Rooted for Business). */
+  roles: text("roles", { mode: "json" }).$type<Role[]>(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 });

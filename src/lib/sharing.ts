@@ -15,6 +15,8 @@ export interface SharingPreferences {
   openToMessages: boolean;
   paused: boolean;
   shareName: boolean;
+  /** Companies that can never find or message me (e.g. my current employer). */
+  hiddenFrom: string[];
   shared: {
     stack?: Stack;
     seniority?: Seniority;
@@ -31,6 +33,7 @@ export const defaultSharing: SharingPreferences = {
   openToMessages: false,
   paused: false,
   shareName: false,
+  hiddenFrom: [],
   shared: { skills: [], workModes: [] },
   reviewed: false,
 };

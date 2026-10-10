@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { db } from "@/db";
-import { userData } from "@/db/schema";
+import { userData, type Role } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 /** The signed-in user's saved journey and sharing preferences. */
@@ -13,6 +13,7 @@ export async function GET() {
     user: { id: session.user.id, name: session.user.name, email: session.user.email },
     journey: row?.journey ?? null,
     sharing: row?.sharing ?? null,
+    roles: row?.roles ?? ["engineer"],
   });
 }
 
@@ -21,7 +22,7 @@ export async function PUT(req: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return Response.json({ error: "Not signed in" }, { status: 401 });
 
-  let body: { journey?: unknown; sharing?: unknown };
+  let body: { journey?: unknown; sharing?: unknown; roles?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -32,6 +33,11 @@ export async function PUT(req: Request) {
   const patch: Partial<typeof userData.$inferInsert> = { updatedAt: new Date() };
   if (body.journey !== undefined) patch.journey = body.journey;
   if (body.sharing !== undefined) patch.sharing = body.sharing;
+  if (body.roles !== undefined) {
+    const valid = Array.isArray(body.roles) ? body.roles.filter((r): r is Role => r === "engineer" || r === "company") : [];
+    if (valid.length === 0) return Response.json({ error: "roles must include engineer and/or company" }, { status: 400 });
+    patch.roles = [...new Set(valid)];
+  }
 
   await db
     .insert(userData)

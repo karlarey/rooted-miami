@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRoles } from "@/lib/roles";
 
 /** Engineer-side sections. Order = tab order; `crumb` is the breadcrumb label. */
 const sections = [
@@ -13,6 +14,7 @@ const sections = [
 
 export function AppNav() {
   const pathname = usePathname();
+  const { hasBusiness } = useRoles();
   const current = sections.find((s) => pathname === s.href || pathname.startsWith(`${s.href}/`));
 
   return (
@@ -22,9 +24,19 @@ export function AppNav() {
           <Link href="/" className="font-display text-lg font-bold tracking-tight">
             🌱 Rooted <span className="text-leaf">Miami</span>
           </Link>
-          <Link href="/login" className="text-sm text-muted hover:text-brand">
-            Switch user
-          </Link>
+          <div className="flex items-center gap-3">
+            {hasBusiness && (
+              <div className="flex rounded-full border border-line p-0.5 text-xs font-semibold" aria-label="Switch profile">
+                <span className="rounded-full bg-primary px-3 py-1 text-on-primary">People</span>
+                <Link href="/companies" className="rounded-full px-3 py-1 text-muted hover:text-ink">
+                  Business
+                </Link>
+              </div>
+            )}
+            <Link href="/login" className="text-sm text-muted hover:text-brand">
+              Switch user
+            </Link>
+          </div>
         </div>
 
         <nav aria-label="Main" className="-mx-4 overflow-x-auto px-4">
