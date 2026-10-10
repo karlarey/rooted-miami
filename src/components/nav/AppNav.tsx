@@ -7,6 +7,7 @@ import { useRoles } from "@/lib/roles";
 /** Engineer-side sections. Order = tab order; `crumb` is the breadcrumb label. */
 const sections = [
   { href: "/journey", label: "Journey", crumb: "Your journey" },
+  { href: "/calendar", label: "Calendar", crumb: "Your calendar" },
   { href: "/stages", label: "Stages", crumb: "Stages" },
   { href: "/negotiate", label: "Know your number", crumb: "Know your number" },
   { href: "/sharing", label: "What companies see", crumb: "What companies see" },
