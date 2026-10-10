@@ -517,6 +517,76 @@ function SentPipeline({ sent, onRefresh }: { sent: Opportunity[]; onRefresh: () 
           </table>
         </div>
       )}
+      {sent.some((o) => o.status === "replied") && (
+        <div className="mt-8 space-y-4">
+          <h3 className="font-display text-xl font-semibold text-rb-ink">Conversations</h3>
+          {sent
+            .filter((o) => o.status === "replied")
+            .map((o) => (
+              <Conversation key={o.id} o={o} onChange={onRefresh} />
+            ))}
+        </div>
+      )}
     </section>
+  );
+}
+
+/** A thread the engineer opened by replying. The company only sees what the engineer writes. */
+function Conversation({ o, onChange }: { o: Opportunity; onChange: () => void }) {
+  const [draft, setDraft] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function send(e: FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    const res = await fetch(`/api/opportunities/${o.id}/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ from: "company", body: draft }),
+    });
+    setBusy(false);
+    if (!res.ok) return setError((await res.json()).error);
+    setDraft("");
+    onChange();
+  }
+
+  return (
+    <div className={card}>
+      <p className="text-xs font-medium tracking-widest text-rb-muted uppercase">{o.role}</p>
+      <p className="mt-1 font-display text-lg font-semibold text-rb-ink">{o.engineerHeadline}</p>
+      <div className="mt-4 space-y-2 text-sm">
+        {[{ id: "first", from: "company" as const, body: o.message, createdAt: o.createdAt }, ...o.thread].map((m) => (
+          <div key={m.id} className={`flex ${m.from === "company" ? "justify-end" : "justify-start"}`}>
+            <p
+              className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2 ${
+                m.from === "company" ? "bg-rb-sage-soft text-rb-ink" : "border border-rb-line bg-rb-bg text-rb-ink"
+              }`}
+            >
+              {m.body}
+            </p>
+          </div>
+        ))}
+      </div>
+      <form onSubmit={send} className="mt-4 flex flex-wrap gap-2">
+        <input
+          value={draft}
+          maxLength={1000}
+          onChange={(e) => setDraft(e.target.value)}
+          placeholder="Write back…"
+          aria-label={`Message to ${o.engineerHeadline}`}
+          className={`${input} mt-0 min-w-0 flex-1`}
+        />
+        <button type="submit" disabled={busy || !draft.trim()} className={btnPrimary}>
+          {busy ? "Sending…" : "Send"}
+        </button>
+      </form>
+      {error && (
+        <p role="alert" className="mt-2 text-sm text-rb-ink">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
