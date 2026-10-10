@@ -17,7 +17,7 @@ export default function FinderPage() {
           <Link href="/companies" className="font-display font-semibold text-rb-ink">
             Rooted <span className="font-normal text-rb-muted">for Business</span>
           </Link>
-          <span className="rounded-full bg-rb-sage-soft px-3 py-1 text-xs font-medium">Signed in as Brisa Labs (demo)</span>
+          <span className="rounded-full bg-rb-sage-soft px-3 py-1 text-xs font-medium">Signed in as AI Brisa Labs</span>
         </nav>
 
         <header className="mt-10 mb-8">

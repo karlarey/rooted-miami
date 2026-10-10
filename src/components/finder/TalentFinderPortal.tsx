@@ -11,7 +11,7 @@ import type { FinderResult } from "@/lib/talent-finder";
 import type { ScoredCard, TalentQuery } from "@/lib/talent-search";
 
 /* Demo company: fictional, so nothing here passes as a real employer. */
-const COMPANY = { id: "demo-company", name: "Brisa Labs (demo)" };
+const COMPANY = { id: "demo-company", name: "AI Brisa Labs" };
 
 const usd = (n: number) => `$${Math.round(n / 1000)}K`;
 const levelBadge: Record<TalentCard["level"], string> = { seed: "🌱 Seed", sprout: "🌿 Sprout", rooted: "🌳 Rooted", grove: "🌲 Grove" };
