@@ -22,7 +22,14 @@ export async function* streamReply(
 ): AsyncGenerator<string> {
   switch (activeProvider()) {
     case "gemini":
-      yield* streamGemini(system, messages);
+      try {
+        yield* streamGeminiWithFallback(system, messages);
+      } catch (err) {
+        // Gemini is down for every model we tried: keep the conversation going
+        // with the scripted replies instead of showing "offline".
+        console.error("Pana: Gemini unavailable, using mock replies:", err);
+        yield* streamMock(messages, trigger);
+      }
       return;
     case "ollama":
       yield* streamOllama(system, messages);
@@ -33,10 +40,42 @@ export async function* streamReply(
   }
 }
 
-async function* streamGemini(system: string, messages: ChatMessage[]) {
+/**
+ * Gemini sometimes answers 503 (overloaded) or 429 (rate limited). Retry
+ * briefly, then try the backup model. Only retries before the first chunk,
+ * so a reply is never sent twice.
+ */
+async function* streamGeminiWithFallback(system: string, messages: ChatMessage[]) {
+  const models = [
+    process.env.GEMINI_MODEL ?? "gemini-flash-latest",
+    process.env.GEMINI_FALLBACK_MODEL ?? "gemini-flash-lite-latest",
+  ];
+  let lastError: unknown;
+  for (const model of [...new Set(models)]) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      let started = false;
+      try {
+        for await (const chunk of streamGemini(system, messages, model)) {
+          started = true;
+          yield chunk;
+        }
+        return;
+      } catch (err) {
+        if (started) throw err;
+        lastError = err;
+        const status = (err as { status?: number }).status;
+        if (status !== undefined && status !== 429 && status < 500) break; // not transient: next model
+        await new Promise((r) => setTimeout(r, 400 * (attempt + 1)));
+      }
+    }
+  }
+  throw lastError;
+}
+
+async function* streamGemini(system: string, messages: ChatMessage[], model: string) {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   const stream = await ai.models.generateContentStream({
-    model: process.env.GEMINI_MODEL ?? "gemini-flash-latest",
+    model,
     contents: messages.map((m) => ({
       role: m.role === "assistant" ? "model" : "user",
       parts: [{ text: m.content }],
