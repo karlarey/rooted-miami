@@ -47,6 +47,9 @@ export default function JourneyPage() {
           <Link href="/stages" className="text-muted hover:text-coral">
             Stages
           </Link>
+          <Link href="/negotiate" className="text-muted hover:text-coral">
+            Know your number
+          </Link>
           <Link href="/sharing" className="text-muted hover:text-coral">
             What companies see
           </Link>
