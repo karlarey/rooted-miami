@@ -61,10 +61,11 @@ async function* streamGeminiWithFallback(system: string, messages: ChatMessage[]
         }
         return;
       } catch (err) {
-        if (started) throw err;
+        if (started) return; // stalled mid-reply: keep what was sent
         lastError = err;
         const status = (err as { status?: number }).status;
-        if (status !== undefined && status !== 429 && status < 500) break; // not transient: next model
+        // A hang or a non-transient error: go straight to the next model.
+        if (err instanceof GeminiTimeout || (status !== undefined && status !== 429 && status < 500)) break;
         await new Promise((r) => setTimeout(r, 400 * (attempt + 1)));
       }
     }
@@ -72,18 +73,47 @@ async function* streamGeminiWithFallback(system: string, messages: ChatMessage[]
   throw lastError;
 }
 
+class GeminiTimeout extends Error {}
+
+/** No first chunk within this long means Gemini is stuck: give up on this attempt. */
+const FIRST_CHUNK_MS = 8000;
+/** Once replying, a gap this long between chunks ends the reply. */
+const NEXT_CHUNK_MS = 15000;
+
 async function* streamGemini(system: string, messages: ChatMessage[], model: string) {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-  const stream = await ai.models.generateContentStream({
-    model,
-    contents: messages.map((m) => ({
-      role: m.role === "assistant" ? "model" : "user",
-      parts: [{ text: m.content }],
-    })),
-    config: { systemInstruction: system },
-  });
-  for await (const chunk of stream) {
-    if (chunk.text) yield chunk.text;
+  const abort = new AbortController();
+  const within = <T>(p: Promise<T>, ms: number) => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const timeout = new Promise<never>((_, reject) => {
+      timer = setTimeout(() => {
+        abort.abort();
+        reject(new GeminiTimeout(`Gemini (${model}) sent nothing for ${ms}ms`));
+      }, ms);
+    });
+    return Promise.race([p, timeout]).finally(() => clearTimeout(timer));
+  };
+
+  const stream = await within(
+    ai.models.generateContentStream({
+      model,
+      contents: messages.map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: m.content }],
+      })),
+      config: { systemInstruction: system, abortSignal: abort.signal },
+    }),
+    FIRST_CHUNK_MS,
+  );
+  const it = stream[Symbol.asyncIterator]();
+  let started = false;
+  for (;;) {
+    const { done, value } = await within(it.next(), started ? NEXT_CHUNK_MS : FIRST_CHUNK_MS);
+    if (done) return;
+    if (value.text) {
+      started = true;
+      yield value.text;
+    }
   }
 }
 
