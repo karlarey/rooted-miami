@@ -15,6 +15,8 @@ export const alex: Profile = {
   missesMost: "Walking out the door and running into people",
   weekendHours: 6,
   languages: ["English", "some Spanish"],
+  stack: "backend",
+  seniority: "mid",
   completedQuests: ["metromover-loop", "cafecito-ventanita"],
 };
 

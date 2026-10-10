@@ -33,5 +33,6 @@ export const packageItems: Record<PackageItem, { emoji: string; name: string; bl
   community: { emoji: "🤝", name: "Community", blurb: "Rituals that outlast the people who come and go" },
   purpose: { emoji: "🎓", name: "Purpose", blurb: "Students and causes that need you here" },
   identity: { emoji: "🌴", name: "Identity", blurb: "Becoming a Miamian" },
-  practical: { emoji: "🧭", name: "Practical start", blurb: "Neighborhood, transit, cost reality" },
+  career: { emoji: "💼", name: "Career & skills", blurb: "A next job here: AI skills, hackathons, the tech map, warm intros" },
+  practical: { emoji: "🧭", name: "Practical start", blurb: "Neighborhood, transit, cost heads-up" },
 };

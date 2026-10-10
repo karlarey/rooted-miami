@@ -3,7 +3,7 @@ import { welcomePackage } from "@/lib/recommend";
 import type { Profile } from "@/lib/types";
 import { PanaAvatar } from "./bubbles";
 
-const order = ["community", "purpose", "identity", "practical"] as const;
+const order = ["community", "purpose", "identity", "career", "practical"] as const;
 
 /** Brief "building" moment between the last answer and the reveal. */
 export function BuildingPackage({ name }: { name: string }) {

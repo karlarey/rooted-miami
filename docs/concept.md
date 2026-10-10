@@ -45,6 +45,13 @@ Why engineers leave, in order (see [research](research/why-engineers-leave.md)):
 | Founder path (Grove) | Connect to Miami accelerators and funders; founders hire mentees |
 | Employers pay for retention | Companies that relocate engineers pay Rooted to keep them; replacing an engineer costs far more |
 
+**Growing skills here (what makes companies want to hire in Miami)**
+| Path | What it is | Value exchange |
+|---|---|---|
+| AI trainings | Hands-on build trainings with other Miami engineers | Current skills companies hire for |
+| Hackathons | Weekend builds (like this one), then ship the project | Portfolio, teammates, companies scouting |
+| Contribution projects | Side projects with university research (climate, sea level, hurricanes, health), civic open data, nonprofits | **Not free labor:** credit (co-author / contributor), a mentor, a portfolio piece, recommendations, sometimes a stipend or paid follow-on |
+
 **Trust rule:** engineers opt in to being visible to companies, and the experience never feels like a recruiting funnel. Belonging comes first; jobs come through it.
 
 ## The engineer experience

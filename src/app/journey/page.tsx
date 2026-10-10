@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import { IntentChart } from "@/components/journey/IntentChart";
+import { PayCard } from "@/components/journey/PayCard";
 import { QuestCard } from "@/components/journey/QuestCard";
 import { PanaChat } from "@/components/pana/PanaChat";
 import { LevelPath } from "@/components/stages/LevelPath";
@@ -114,6 +115,8 @@ export default function JourneyPage() {
               <IntentChart checkIns={checkIns} />
             </div>
           </section>
+
+          <PayCard profile={profile} />
 
           {doneQuests.length > 0 && (
             <section>
