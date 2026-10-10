@@ -16,13 +16,13 @@ export function AppNav() {
   const current = sections.find((s) => pathname === s.href || pathname.startsWith(`${s.href}/`));
 
   return (
-    <header className="border-b border-line bg-surface">
+    <header className="sticky top-0 z-30 border-b border-line bg-surface/90 backdrop-blur">
       <div className="mx-auto max-w-6xl px-4">
         <div className="flex items-center justify-between gap-4 py-3">
-          <Link href="/" className="font-bold tracking-tight">
-            🌱 Rooted <span className="text-coral">Miami</span>
+          <Link href="/" className="font-display text-lg font-bold tracking-tight">
+            🌱 Rooted <span className="text-leaf">Miami</span>
           </Link>
-          <Link href="/login" className="text-sm text-muted hover:text-coral">
+          <Link href="/login" className="text-sm text-muted hover:text-brand">
             Switch user
           </Link>
         </div>
@@ -37,7 +37,7 @@ export function AppNav() {
                     href={s.href}
                     aria-current={active ? "page" : undefined}
                     className={`block whitespace-nowrap rounded-full px-3 py-1.5 text-sm ${
-                      active ? "bg-coral-soft font-semibold text-coral" : "text-muted hover:text-ink"
+                      active ? "bg-primary font-semibold text-on-primary" : "text-muted hover:bg-surface-2 hover:text-ink"
                     }`}
                   >
                     {s.label}
@@ -52,7 +52,7 @@ export function AppNav() {
       <nav aria-label="Breadcrumb" className="border-t border-line bg-bg">
         <ol className="mx-auto flex max-w-6xl flex-wrap items-center gap-1 px-4 py-2 text-xs text-muted">
           <li>
-            <Link href="/" className="hover:text-coral">
+            <Link href="/" className="hover:text-brand">
               Home
             </Link>
           </li>
@@ -60,7 +60,7 @@ export function AppNav() {
             <>
               <li aria-hidden>›</li>
               <li>
-                <Link href="/journey" className="hover:text-coral">
+                <Link href="/journey" className="hover:text-brand">
                   Your journey
                 </Link>
               </li>

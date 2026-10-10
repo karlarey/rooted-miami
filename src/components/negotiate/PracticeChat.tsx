@@ -8,7 +8,7 @@ interface Bubble extends ChatMessage {
   coach?: boolean;
 }
 
-/** Role-play: El Pana plays a hiring manager; "coach me" switches to feedback. */
+/** Role-play: Pana plays a hiring manager; "coach me" switches to feedback. */
 export function PracticeChat({ input }: { input: NegotiationInput }) {
   const greeting = (): Bubble[] => [{ role: "assistant", content: openingLine(input.situation) }];
   const [messages, setMessages] = useState<Bubble[]>(greeting);
@@ -66,20 +66,20 @@ export function PracticeChat({ input }: { input: NegotiationInput }) {
   }
 
   return (
-    <div className="flex flex-col rounded-2xl border border-line bg-surface">
+    <div className="flex flex-col rounded-2xl border border-line bg-surface shadow-card">
       <div className="flex items-center gap-3 border-b border-line p-4">
-        <span className="grid h-10 w-10 place-items-center rounded-full bg-teal text-lg" aria-hidden>
+        <span className="grid h-10 w-10 place-items-center rounded-full bg-leaf text-lg" aria-hidden>
           🤙
         </span>
         <div className="min-w-0 flex-1">
-          <p className="font-semibold">El Pana as your hiring manager</p>
+          <p className="font-semibold">Pana as your hiring manager</p>
           <p className="text-xs text-muted">Friendly but firm. Type &ldquo;coach me&rdquo; for tips. No real company, no promises.</p>
         </div>
         <button
           type="button"
           onClick={() => setMessages(greeting())}
           disabled={busy}
-          className="rounded-full border border-line px-3 py-1 text-xs hover:border-coral disabled:opacity-50"
+          className="rounded-full border border-line px-3 py-1 text-xs hover:border-brand disabled:opacity-50"
         >
           Restart
         </button>
@@ -90,11 +90,11 @@ export function PracticeChat({ input }: { input: NegotiationInput }) {
           <div key={i} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
             <div
               className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm ${
-                m.role === "user" ? "bg-coral text-bg" : m.coach ? "border border-teal bg-teal-soft text-ink" : "bg-surface-2 text-ink"
+                m.role === "user" ? "bg-primary text-on-primary" : m.coach ? "border border-leaf bg-leaf-soft text-ink" : "bg-surface-2 text-ink"
               }`}
             >
               {m.role === "assistant" && (
-                <span className="mb-0.5 block text-xs font-semibold text-muted">{m.coach ? "El Pana, coach" : "Hiring manager"}</span>
+                <span className="mb-0.5 block text-xs font-semibold text-muted">{m.coach ? "Pana, coach" : "Hiring manager"}</span>
               )}
               {m.content || <span className="text-muted">typing…</span>}
             </div>
@@ -111,12 +111,12 @@ export function PracticeChat({ input }: { input: NegotiationInput }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Your reply…"
-          className="min-w-0 flex-1 basis-48 rounded-full border border-line bg-bg px-4 py-2 text-sm outline-none focus:border-coral"
+          className="min-w-0 flex-1 basis-48 rounded-full border border-line bg-bg px-4 py-2 text-sm outline-none focus:border-brand"
         />
         <button
           type="submit"
           disabled={busy || !text.trim()}
-          className="rounded-full bg-coral px-4 py-2 text-sm font-medium text-bg disabled:opacity-50"
+          className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-on-primary disabled:opacity-50"
         >
           Send
         </button>
@@ -124,7 +124,7 @@ export function PracticeChat({ input }: { input: NegotiationInput }) {
           type="button"
           disabled={busy || messages.length < 2}
           onClick={() => send("coach me")}
-          className="rounded-full border border-teal px-4 py-2 text-sm font-medium text-teal disabled:opacity-50"
+          className="rounded-full border border-leaf px-4 py-2 text-sm font-medium text-leaf disabled:opacity-50"
         >
           Coach me
         </button>

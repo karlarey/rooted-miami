@@ -10,15 +10,15 @@ export function RangeBar({ range, current, currentLabel }: { range: NegotiationR
 
   const points = [
     { key: "walk", label: "Walk-away", value: range.walkAway, dot: "bg-muted" },
-    { key: "target", label: "Target", value: range.target, dot: "bg-teal" },
-    { key: "anchor", label: "Anchor", value: range.anchor, dot: "bg-coral" },
+    { key: "target", label: "Target", value: range.target, dot: "bg-leaf" },
+    { key: "anchor", label: "Anchor", value: range.anchor, dot: "bg-primary" },
   ];
 
   return (
     <figure>
       <div className="relative mx-2 mt-10 mb-9 h-3 rounded-full bg-surface-2" aria-hidden>
         <div
-          className="absolute inset-y-0 rounded-full bg-teal-soft"
+          className="absolute inset-y-0 rounded-full bg-leaf-soft"
           style={{ left: pct(range.walkAway), width: `calc(${pct(range.anchor)} - ${pct(range.walkAway)})` }}
         />
         {points.map((p) => (
@@ -33,8 +33,8 @@ export function RangeBar({ range, current, currentLabel }: { range: NegotiationR
         ))}
         {current && (
           <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ left: pct(current) }}>
-            <div className="h-7 w-1 rounded-full bg-gold" />
-            <span className="absolute bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gold px-2 text-xs font-semibold text-ink">
+            <div className="h-7 w-1 rounded-full bg-accent" />
+            <span className="absolute bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent px-2 text-xs font-semibold text-ink">
               You
             </span>
           </div>
@@ -45,7 +45,7 @@ export function RangeBar({ range, current, currentLabel }: { range: NegotiationR
           {current && (
             <div className="rounded-xl bg-surface-2 p-2">
               <dt className="flex items-center gap-1.5 text-xs text-muted">
-                <span className="h-2.5 w-1 rounded-full bg-gold" aria-hidden /> {currentLabel}
+                <span className="h-2.5 w-1 rounded-full bg-accent" aria-hidden /> {currentLabel}
               </dt>
               <dd className="font-semibold">{usdK(current)}</dd>
             </div>

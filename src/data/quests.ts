@@ -546,7 +546,7 @@ export const quests: Quest[] = [
   {
     id: "spanish-phrases",
     title: "Learn 10 Miami Spanish phrases",
-    description: "Start with \"¿Qué bolá?\" and \"dale.\" El Pana will quiz you.",
+    description: "Start with \"¿Qué bolá?\" and \"dale.\" Pana will quiz you.",
     item: "identity",
     level: "seed",
     interests: ["culture"],

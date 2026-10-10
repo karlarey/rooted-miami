@@ -1,32 +1,69 @@
 @import "tailwindcss";
 
+/*
+ * Rooted design system: Botanical Tech (70% sophisticated, 30% playful).
+ * Palette from the Rooted brand system v1.1: Forest #183D32, Lime #D9F36A,
+ * Cream #F8F6EF, Miami Coral #FF806B, Sage #86B5AB, Muted Green #557166.
+ *
+ * Semantic tokens (use these in new code):
+ *   primary / on-primary   filled buttons, active states
+ *   brand                  emphasis text, links, icons
+ *   accent / on-accent     lime highlights, progress, badges
+ *   accent-soft            selected chips, gentle highlights
+ *   leaf / leaf-soft       success, completed, secondary emphasis
+ *   miami                  playful coral moments (never small text on cream)
+ * Legacy aliases (coral, teal, gold…) map onto these so older screens follow.
+ */
+
 :root {
-  --bg: #fdf6ef;
+  --bg: #f8f6ef;
   --surface: #ffffff;
-  --surface-2: #fbe9dc;
-  --ink: #1f1a17;
-  --muted: #6b5f57;
-  --line: #ecdccf;
-  --coral: #e8572a;
-  --coral-soft: #fde0d3;
-  --teal: #0f8b8d;
-  --teal-soft: #d4efee;
-  --gold: #e9a23b;
+  --surface-2: #f0eee4;
+  --ink: #183d32;
+  --muted: #557166;
+  --line: #e2e7df;
+
+  --primary: #183d32;
+  --on-primary: #ffffff;
+  --brand: #183d32;
+  --accent: #d9f36a;
+  --on-accent: #183d32;
+  --accent-soft: #eef7c9;
+  --leaf: #2f6b57;
+  --on-leaf: #ffffff;
+  --leaf-soft: #e4efeb;
+  --sage: #86b5ab;
+  --miami: #ff806b;
+  --miami-soft: #ffe7e1;
+
+  --shadow-card: 0 8px 28px rgb(24 61 50 / 0.06);
+  --shadow-lift: 0 14px 40px rgb(24 61 50 / 0.12);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #14110f;
-    --surface: #1d1916;
-    --surface-2: #2a211c;
-    --ink: #f5ece4;
-    --muted: #b3a59a;
-    --line: #3a2f28;
-    --coral: #ff7a4d;
-    --coral-soft: #3d2219;
-    --teal: #35c2c4;
-    --teal-soft: #13302f;
-    --gold: #f2b65a;
+    --bg: #0d1f1a;
+    --surface: #132c25;
+    --surface-2: #1a3830;
+    --ink: #f1f4ec;
+    --muted: #a3bdb2;
+    --line: #27473e;
+
+    --primary: #d9f36a;
+    --on-primary: #183d32;
+    --brand: #d9f36a;
+    --accent: #d9f36a;
+    --on-accent: #183d32;
+    --accent-soft: #2a3a1f;
+    --leaf: #9fd0be;
+    --on-leaf: #0d1f1a;
+    --leaf-soft: #1b3a32;
+    --sage: #86b5ab;
+    --miami: #ff8f7c;
+    --miami-soft: #3a2420;
+
+    --shadow-card: 0 8px 28px rgb(0 0 0 / 0.25);
+    --shadow-lift: 0 14px 40px rgb(0 0 0 / 0.35);
   }
 }
 
@@ -37,17 +74,85 @@
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-coral: var(--coral);
-  --color-coral-soft: var(--coral-soft);
-  --color-teal: var(--teal);
-  --color-teal-soft: var(--teal-soft);
-  --color-gold: var(--gold);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-brand: var(--brand);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-leaf: var(--leaf);
+  --color-on-leaf: var(--on-leaf);
+  --color-leaf-soft: var(--leaf-soft);
+  --color-sage: var(--sage);
+  --color-miami: var(--miami);
+  --color-miami-soft: var(--miami-soft);
+
+  /* Fixed brand colors, same in both themes (hero sections, illustrations). */
+  --color-forest: #183d32;
+  --color-lime: #d9f36a;
+  --color-cream: #f8f6ef;
+
+  /* Legacy aliases. */
+  --color-coral: var(--primary);
+  --color-coral-soft: var(--accent-soft);
+  --color-teal: var(--leaf);
+  --color-teal-soft: var(--leaf-soft);
+  --color-gold: var(--accent);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand radii: cards 24px, inputs 12–16px. */
+  --radius-2xl: 1.5rem;
+  --radius-xl: 0.875rem;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 2px solid var(--leaf);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+a,
+button {
+  transition:
+    color 180ms ease-out,
+    background-color 180ms ease-out,
+    border-color 180ms ease-out,
+    box-shadow 180ms ease-out,
+    transform 180ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

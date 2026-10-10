@@ -3,7 +3,7 @@ import { activeProvider } from "./providers";
 
 /**
  * One-shot, non-streaming completion that returns JSON text.
- * Used for structured extraction (e.g. profile import), not for El Pana's chat voice.
+ * Used for structured extraction (e.g. profile import), not for Pana's chat voice.
  * Throws on any provider error or timeout; callers fall back to deterministic logic.
  * Returns null in mock mode.
  */

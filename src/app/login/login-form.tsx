@@ -7,7 +7,7 @@ import { alex } from "@/data/alex";
 import { useJourney } from "@/lib/use-journey";
 
 const field =
-  "h-12 w-full rounded-xl border border-line bg-bg px-4 text-base text-ink placeholder:text-muted focus:border-teal focus:outline-none";
+  "h-12 w-full rounded-xl border border-line bg-bg px-4 text-base text-ink placeholder:text-muted focus:border-leaf focus:outline-none";
 
 export function LoginForm() {
   const router = useRouter();
@@ -29,10 +29,10 @@ export function LoginForm() {
 
   return (
     <div className="space-y-4">
-      <section className="rounded-2xl border border-line bg-surface p-5">
+      <section className="rounded-2xl border border-line bg-surface shadow-card p-5">
         <p className="font-semibold text-ink">Bring your LinkedIn</p>
         <p className="mt-1 text-sm text-muted">
-          El Pana reads your profile once to skip the boring questions. Then you choose what companies can see.
+          Pana reads your profile once to skip the boring questions. Then you choose what companies can see.
         </p>
         <button
           type="button"
@@ -44,11 +44,11 @@ export function LoginForm() {
         <p className="mt-2 text-xs text-muted">Demo: upload your LinkedIn profile PDF. Read once, never stored.</p>
       </section>
 
-      <section className="rounded-2xl border border-line bg-surface p-5">
+      <section className="rounded-2xl border border-line bg-surface shadow-card p-5">
         <div className="flex items-center gap-3">
           <span
             aria-hidden
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-coral-soft text-xl font-bold text-coral"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-soft text-xl font-bold text-brand"
           >
             A
           </span>
@@ -60,7 +60,7 @@ export function LoginForm() {
         <button
           type="button"
           onClick={continueAsAlex}
-          className="mt-4 w-full rounded-full bg-coral px-5 py-3.5 text-base font-semibold text-bg transition active:scale-[0.98]"
+          className="mt-4 w-full rounded-full bg-primary px-5 py-3.5 text-base font-semibold text-on-primary transition active:scale-[0.98]"
         >
           Continue as Alex (demo) →
         </button>
@@ -70,7 +70,7 @@ export function LoginForm() {
         <span className="h-px flex-1 bg-line" /> or <span className="h-px flex-1 bg-line" />
       </div>
 
-      <form onSubmit={startOwn} className="space-y-3 rounded-2xl border border-line bg-surface p-5">
+      <form onSubmit={startOwn} className="space-y-3 rounded-2xl border border-line bg-surface shadow-card p-5">
         <p className="font-semibold text-ink">Start my own journey</p>
         <label className="block">
           <span className="mb-1 block text-sm text-muted">First name</span>
@@ -80,7 +80,7 @@ export function LoginForm() {
             onChange={(e) => setName(e.target.value)}
             maxLength={40}
             autoComplete="given-name"
-            placeholder="What should El Pana call you?"
+            placeholder="What should Pana call you?"
           />
         </label>
         <label className="block">
@@ -98,9 +98,9 @@ export function LoginForm() {
         </label>
         <button
           type="submit"
-          className="w-full rounded-full border-2 border-teal px-5 py-3 text-base font-semibold text-teal transition hover:bg-teal-soft active:scale-[0.98]"
+          className="w-full rounded-full border-2 border-leaf px-5 py-3 text-base font-semibold text-leaf transition hover:bg-leaf-soft active:scale-[0.98]"
         >
-          Meet El Pana →
+          Meet Pana →
         </button>
       </form>
     </div>

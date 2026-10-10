@@ -13,14 +13,14 @@ export default function LoginPage() {
           🌱
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-ink">
-          Rooted <span className="text-coral">Miami</span>
+          Rooted <span className="text-brand">Miami</span>
         </h1>
         <p className="mx-auto mt-2 max-w-xs text-muted">
-          Your journey to becoming a Miamian, one side quest at a time.
+          New city. New roots. From nomad to local, one side quest at a time.
         </p>
       </div>
 
-      <p className="mx-auto mt-6 mb-5 rounded-full border border-gold/60 bg-surface-2 px-3 py-1.5 text-center text-xs text-ink">
+      <p className="mx-auto mt-6 mb-5 rounded-full border border-accent/60 bg-surface-2 px-3 py-1.5 text-center text-xs text-ink">
         <span className="font-semibold">Demo login.</span> No password, no account. Anything you type stays in this
         browser.
       </p>

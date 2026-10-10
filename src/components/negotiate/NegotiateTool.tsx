@@ -30,7 +30,7 @@ function parseMoney(raw: string): number | undefined {
 function Source({ k }: { k: SourceKey }) {
   const s = SOURCES[k];
   return s.url ? (
-    <a href={s.url} target="_blank" rel="noreferrer" className="underline hover:text-coral">
+    <a href={s.url} target="_blank" rel="noreferrer" className="underline hover:text-brand">
       {s.label}
     </a>
   ) : (
@@ -40,7 +40,7 @@ function Source({ k }: { k: SourceKey }) {
 
 function Card({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
-    <section aria-labelledby={id} className="rounded-2xl border border-line bg-surface p-4 sm:p-5">
+    <section aria-labelledby={id} className="rounded-2xl border border-line bg-surface shadow-card p-4 sm:p-5">
       <h2 id={id} className="text-lg font-semibold text-ink">
         {title}
       </h2>
@@ -50,7 +50,7 @@ function Card({ id, title, children }: { id: string; title: string; children: Re
 }
 
 const selectCls =
-  "mt-1 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm text-ink outline-none focus:border-coral";
+  "mt-1 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm text-ink outline-none focus:border-brand";
 
 export function NegotiateTool() {
   const { journey, ready, complete } = useJourney();
@@ -74,16 +74,16 @@ export function NegotiateTool() {
   if (!a) return null;
   const { b, range, position } = a;
   const comparison = [
-    { label: "Miami, local employer", value: b.miamiLocal, note: "BLS OEWS May 2025", bar: "bg-coral" },
-    { label: "Miami, remote role", value: b.miamiRemote, note: "Estimate: NYC × 0.85", bar: "bg-gold" },
-    { label: "Austin", value: b.austin, note: "BLS OEWS May 2025", bar: "bg-teal" },
-    { label: "New York City", value: b.nyc, note: "BLS OEWS May 2025", bar: "bg-teal" },
+    { label: "Miami, local employer", value: b.miamiLocal, note: "BLS OEWS May 2025", bar: "bg-primary" },
+    { label: "Miami, remote role", value: b.miamiRemote, note: "Estimate: NYC × 0.85", bar: "bg-accent" },
+    { label: "Austin", value: b.austin, note: "BLS OEWS May 2025", bar: "bg-leaf" },
+    { label: "New York City", value: b.nyc, note: "BLS OEWS May 2025", bar: "bg-leaf" },
   ];
   const max = Math.max(...comparison.map((c) => c.value), range.anchor);
 
   return (
     <div className="space-y-6">
-      <form onSubmit={(e) => e.preventDefault()} className="rounded-2xl border border-line bg-surface p-4 sm:p-5" aria-labelledby={`${ids}-form`}>
+      <form onSubmit={(e) => e.preventDefault()} className="rounded-2xl border border-line bg-surface shadow-card p-4 sm:p-5" aria-labelledby={`${ids}-form`}>
         <h2 id={`${ids}-form`} className="text-lg font-semibold">
           Your situation
         </h2>
@@ -116,8 +116,8 @@ export function NegotiateTool() {
             {situations.map((s) => (
               <label
                 key={s}
-                className={`cursor-pointer rounded-full border px-3 py-1.5 text-sm has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-coral ${
-                  situation === s ? "border-coral bg-coral-soft text-ink" : "border-line text-muted hover:border-coral"
+                className={`cursor-pointer rounded-full border px-3 py-1.5 text-sm has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand ${
+                  situation === s ? "border-brand bg-accent-soft text-ink" : "border-line text-muted hover:border-brand"
                 }`}
               >
                 <input
@@ -163,7 +163,7 @@ export function NegotiateTool() {
               {position.outOfRange && (
                 <p
                   className={`mt-2 inline-block rounded-full px-3 py-1 text-xs font-semibold text-ink ${
-                    position.outOfRange === "below" ? "bg-coral-soft" : "bg-teal-soft"
+                    position.outOfRange === "below" ? "bg-accent-soft" : "bg-leaf-soft"
                   }`}
                 >
                   {position.outOfRange === "below" ? "Below the 25th percentile" : "Above the 90th percentile"}
@@ -186,17 +186,17 @@ export function NegotiateTool() {
           <RangeBar range={range} current={current} currentLabel={situation === "raise" ? "Current pay" : "Offer"} />
           <ul className="mt-3 space-y-1 text-sm">
             <li>
-              <strong className="text-coral">Anchor {usdK(range.anchor)}</strong>: Austin buying-power parity (Austin pay × 1.164).
+              <strong className="text-brand">Anchor {usdK(range.anchor)}</strong>: Austin buying-power parity (Austin pay × 1.164).
             </li>
             <li>
-              <strong className="text-teal">Target {usdK(range.target)}</strong>: midway between Miami market and Austin parity.
+              <strong className="text-leaf">Target {usdK(range.target)}</strong>: midway between Miami market and Austin parity.
             </li>
             <li>
               <strong>Walk-away {usdK(range.walkAway)}</strong>: the Miami market rate for this level.
             </li>
           </ul>
           {current && current < range.walkAway && (
-            <p className="mt-3 rounded-xl bg-coral-soft p-3 text-sm">
+            <p className="mt-3 rounded-xl bg-accent-soft p-3 text-sm">
               Your number is <strong>{usdK(range.walkAway - current)} below</strong> the Miami market for this level.
             </p>
           )}
@@ -241,7 +241,7 @@ export function NegotiateTool() {
           <ol className="space-y-3">
             {script(a, situation, current).map((s, i) => (
               <li key={s.label} className="text-sm">
-                <p className="font-mono text-xs tracking-widest text-coral">
+                <p className="text-xs font-semibold uppercase tracking-widest text-brand">
                   {i + 1}. {s.label.toUpperCase()}
                 </p>
                 <p className="mt-1">{s.line}</p>
@@ -267,10 +267,10 @@ export function NegotiateTool() {
 
       <section aria-labelledby={`${ids}-practice`}>
         <h2 id={`${ids}-practice`} className="mb-1 text-lg font-semibold">
-          Practice with El Pana
+          Practice with Pana
         </h2>
         <p className="mb-3 text-sm text-muted">
-          El Pana plays a friendly-but-firm hiring manager using your numbers. Press &ldquo;Coach me&rdquo; for 2–3 tips.
+          Pana plays a friendly-but-firm hiring manager using your numbers. Press &ldquo;Coach me&rdquo; for 2–3 tips.
         </p>
         <PracticeChat input={input} />
       </section>
@@ -288,7 +288,7 @@ export function NegotiateTool() {
         </ul>
       </aside>
 
-      <div className="flex flex-col items-start gap-2 rounded-2xl border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col items-start gap-2 rounded-2xl border border-line bg-surface shadow-card p-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm">
           <span aria-hidden>💼 </span>Side quest: <strong>Check your pay against Miami benchmarks</strong>
         </p>
@@ -296,7 +296,7 @@ export function NegotiateTool() {
           type="button"
           onClick={() => complete("pay-check")}
           disabled={!ready || questDone}
-          className="rounded-full bg-coral px-4 py-2 text-sm font-semibold text-bg disabled:bg-teal-soft disabled:text-ink"
+          className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-on-primary disabled:bg-leaf-soft disabled:text-ink"
         >
           {questDone ? "✓ Quest done" : "Mark 'Check your pay against Miami benchmarks' done"}
         </button>

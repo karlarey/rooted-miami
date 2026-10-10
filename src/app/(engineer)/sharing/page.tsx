@@ -74,7 +74,7 @@ function SharingForm() {
         />
       </section>
 
-      <fieldset className="space-y-4 rounded-2xl border border-line bg-surface p-4" disabled={!p.openToMessages}>
+      <fieldset className="space-y-4 rounded-2xl border border-line bg-surface shadow-card p-4" disabled={!p.openToMessages}>
         <legend className="px-1 font-semibold">What companies see</legend>
         {!p.openToMessages && <p className="text-sm text-muted">Turn on messages to choose what to share.</p>}
 
@@ -147,7 +147,7 @@ function SharingForm() {
                   onClick={() =>
                     setShared({ workModes: on ? p.shared.workModes.filter((x) => x !== m) : [...p.shared.workModes, m] })
                   }
-                  className={`rounded-full border px-4 py-1.5 capitalize ${on ? "border-coral bg-coral-soft text-coral" : "border-line"}`}
+                  className={`rounded-full border px-4 py-1.5 capitalize ${on ? "border-brand bg-accent-soft text-brand" : "border-line"}`}
                 >
                   {m}
                 </button>
@@ -175,7 +175,7 @@ function SharingForm() {
 
       <button
         onClick={saveAndContinue}
-        className="w-full rounded-full bg-coral px-5 py-3.5 font-semibold text-white hover:opacity-90"
+        className="w-full rounded-full bg-primary px-5 py-3.5 font-semibold text-on-primary hover:opacity-90"
       >
         Save and continue →
       </button>

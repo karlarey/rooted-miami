@@ -8,7 +8,7 @@ import type { CheckIn, Interest, LevelId, Neighborhood, Profile, Quest } from "@
  * ~150 synthetic members generated deterministically (seeded PRNG) so the
  * city dashboard can show what Rooted *would* measure. Every number derived
  * from these members is an illustration of the measurement, never an outcome.
- * In production these records come from the backend (profiles, El Pana's
+ * In production these records come from the backend (profiles, Pana's
  * monthly check-ins, quest completions, mentorship records).
  */
 

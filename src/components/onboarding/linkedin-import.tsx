@@ -7,10 +7,10 @@ import type { ImportedFields } from "./script";
 const MAX_BYTES = 5 * 1024 * 1024;
 
 const chip =
-  "rounded-full border px-4 py-2 text-sm font-medium transition active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal";
-const chipIdle = "border-line bg-surface text-ink hover:border-coral";
+  "rounded-full border px-4 py-2 text-sm font-medium transition active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf";
+const chipIdle = "border-line bg-surface text-ink hover:border-brand";
 const primary =
-  "flex w-full items-center justify-center gap-2 rounded-full bg-coral px-5 py-3 text-base font-semibold text-bg transition active:scale-[0.98] disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal";
+  "flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-base font-semibold text-on-primary transition active:scale-[0.98] disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf";
 
 export interface ImportSuccess {
   fields: ImportedFields;
@@ -84,7 +84,7 @@ export function ImportOffer({ onImported, onSkip }: { onImported: (r: ImportSucc
       <label
         htmlFor={inputId}
         aria-disabled={busy}
-        className={`${primary} cursor-pointer peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-teal ${busy ? "pointer-events-none opacity-60" : ""}`}
+        className={`${primary} cursor-pointer peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-leaf ${busy ? "pointer-events-none opacity-60" : ""}`}
       >
         {busy ? "Reading your profile…" : "📄 Upload my LinkedIn PDF"}
       </label>
@@ -105,7 +105,7 @@ export function ImportOffer({ onImported, onSkip }: { onImported: (r: ImportSucc
 
       <p role="status" aria-live="polite" className="text-sm">
         {busy && <span className="sr-only">Reading your profile…</span>}
-        {error && <span className="text-coral">{error}</span>}
+        {error && <span className="text-brand">{error}</span>}
       </p>
     </div>
   );
@@ -124,7 +124,7 @@ export function ImportConfirm({
   if (!editing) {
     return (
       <div className="flex flex-wrap gap-2">
-        <button type="button" className={`${chip} border-teal bg-teal-soft text-ink`} onClick={() => onConfirm(fields, false)}>
+        <button type="button" className={`${chip} border-leaf bg-leaf-soft text-ink`} onClick={() => onConfirm(fields, false)}>
           👍 Yep, that&apos;s me
         </button>
         <button type="button" className={`${chip} ${chipIdle}`} onClick={() => setEditing(true)}>
@@ -152,7 +152,7 @@ function ImportEditForm({
   const [seniority, setSeniority] = useState<Seniority | "">(fields.seniority ?? "");
   const [movedFrom, setMovedFrom] = useState(fields.movedFrom ?? "");
 
-  const field = "h-11 w-full rounded-xl border border-line bg-surface px-3 text-base text-ink focus:border-teal focus:outline-none";
+  const field = "h-11 w-full rounded-xl border border-line bg-surface px-3 text-base text-ink focus:border-leaf focus:outline-none";
   const label = "mb-1 block text-xs font-medium text-muted";
 
   return (
@@ -225,7 +225,7 @@ function ImportEditForm({
         <button
           type="button"
           aria-label="Back to options"
-          className="h-11 w-11 shrink-0 rounded-full border border-line bg-surface text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
+          className="h-11 w-11 shrink-0 rounded-full border border-line bg-surface text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf"
           onClick={onCancel}
         >
           ←

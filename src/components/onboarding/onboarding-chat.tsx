@@ -26,7 +26,7 @@ import {
   type Line,
 } from "./script";
 
-/** "import": El Pana offers the LinkedIn shortcut. "confirm": did I get that right? "chat": the questions. */
+/** "import": Pana offers the LinkedIn shortcut. "confirm": did I get that right? "chat": the questions. */
 type Phase = "import" | "confirm" | "chat";
 
 interface Message {
@@ -56,7 +56,7 @@ export function OnboardingChat({ initialName }: { initialName?: string }) {
   const building = phase === "chat" && stepIdx === DONE && !typing && !profile;
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Deliver El Pana's queued texts one at a time, with a typing pause.
+  // Deliver Pana's queued texts one at a time, with a typing pause.
   useEffect(() => {
     if (queue.length === 0) return;
     const t = setTimeout(() => {
@@ -206,7 +206,7 @@ export function OnboardingChat({ initialName }: { initialName?: string }) {
           </Link>
           <PanaAvatar />
           <div className="min-w-0 flex-1">
-            <p className="leading-tight font-semibold text-ink">El Pana</p>
+            <p className="leading-tight font-semibold text-ink">Pana</p>
             <p className="text-xs text-muted">{typing ? "typing…" : "your buddy in Miami"}</p>
           </div>
           <span className="rounded-full bg-surface-2 px-2.5 py-1 text-xs text-muted">🌱 Character creation</span>
@@ -219,7 +219,7 @@ export function OnboardingChat({ initialName }: { initialName?: string }) {
           aria-valuemin={0}
           aria-valuemax={100}
         >
-          <div className="h-full rounded-full bg-coral transition-all duration-500" style={{ width: `${progress}%` }} />
+          <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${progress}%` }} />
         </div>
       </header>
 

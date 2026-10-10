@@ -14,7 +14,7 @@ export function activeProvider(): Provider {
   return process.env.GEMINI_API_KEY ? "gemini" : "mock";
 }
 
-/** Streams El Pana's reply as plain text chunks from the configured provider. */
+/** Streams Pana's reply as plain text chunks from the configured provider. */
 export async function* streamReply(
   system: string,
   messages: ChatMessage[],
@@ -95,7 +95,7 @@ async function* streamMock(messages: ChatMessage[], trigger?: Trigger) {
     ? mockTriggerReplies[trigger]
     : last.includes("tennis")
       ? "¡Dale! There's a Saturday tennis ladder at Crandon Park. It repeats every week, so it can become your ritual. Want me to add it to your side quests?"
-      : "¡Bienvenido, pana! I'm El Pana, your buddy in Miami. Tell me what you loved doing back home and I'll find your first side quest.";
+      : "¡Bienvenido, pana! I'm Pana, your buddy in Miami. Tell me what you loved doing back home and I'll find your first side quest.";
   for (const word of reply.split(" ")) {
     yield word + " ";
     await new Promise((r) => setTimeout(r, 30));

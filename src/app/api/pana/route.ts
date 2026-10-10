@@ -15,13 +15,13 @@ export async function POST(req: Request) {
   const { messages, profile = alex, trigger } = (await req.json()) as PanaRequest;
   const system = panaSystemPrompt(profile, levelFor(profile.completedQuests));
 
-  // A risk moment: El Pana reaches out first, before the decision to leave.
+  // A risk moment: Pana reaches out first, before the decision to leave.
   const convo: ChatMessage[] = isTrigger(trigger)
     ? [
         ...messages,
         {
           role: "user",
-          content: `[Event, not from ${profile.name}: ${triggers[trigger].event}] Write El Pana's proactive text to ${profile.name}. Lead with care, then point to the communities, people and mentees they already have here, then one concrete next step.`,
+          content: `[Event, not from ${profile.name}: ${triggers[trigger].event}] Write Pana's proactive text to ${profile.name}. Lead with care, then point to the communities, people and mentees they already have here, then one concrete next step.`,
         },
       ]
     : messages;
@@ -34,8 +34,8 @@ export async function POST(req: Request) {
           controller.enqueue(encoder.encode(chunk));
         }
       } catch (err) {
-        console.error("El Pana provider error:", err);
-        controller.enqueue(encoder.encode("\n[El Pana is offline right now. Check the provider settings in .env.local.]"));
+        console.error("Pana provider error:", err);
+        controller.enqueue(encoder.encode("\n[Pana is offline right now. Check the provider settings in .env.local.]"));
       }
       controller.close();
     },

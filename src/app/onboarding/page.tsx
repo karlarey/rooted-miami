@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { OnboardingChat } from "@/components/onboarding/onboarding-chat";
 
 export const metadata: Metadata = {
-  title: "Meet El Pana · Rooted Miami",
+  title: "Meet Pana · Rooted Miami",
 };
 
 export default async function OnboardingPage({

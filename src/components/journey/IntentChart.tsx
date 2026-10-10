@@ -28,14 +28,14 @@ export function IntentChart({ checkIns }: { checkIns: CheckIn[] }) {
             </text>
           </g>
         ))}
-        <polyline points={points} fill="none" className="stroke-coral" strokeWidth="3" strokeLinejoin="round" />
+        <polyline points={points} fill="none" className="stroke-brand" strokeWidth="3" strokeLinejoin="round" />
         {checkIns.map((c) => (
-          <circle key={c.month} cx={x(c.month)} cy={y(c.intentToStay)} r="4" className="fill-coral" />
+          <circle key={c.month} cx={x(c.month)} cy={y(c.intentToStay)} r="4" className="fill-brand" />
         ))}
       </svg>
       <figcaption className="mt-1 text-xs text-muted">
         Intent to stay: <strong className="text-ink">{first.intentToStay}</strong> →{" "}
-        <strong className="text-coral">{last.intentToStay}</strong> / 10 · People outside work:{" "}
+        <strong className="text-brand">{last.intentToStay}</strong> / 10 · People outside work:{" "}
         <strong className="text-ink">{last.peopleOutsideWork}</strong> · Miamian?{" "}
         <strong className="text-ink">{{ yes: "Yes", "not-yet": "Not yet", no: "No" }[last.miamian]}</strong>
       </figcaption>

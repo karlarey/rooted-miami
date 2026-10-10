@@ -3,7 +3,7 @@ import { benchmark, miamiPosition, negotiationRange } from "@/lib/pay-math";
 import type { ChatMessage } from "./providers";
 
 /**
- * El Pana's negotiation practice: a role-play where El Pana plays a hiring
+ * Pana's negotiation practice: a role-play where Pana plays a hiring
  * manager, then switches to coach when the user types "coach me".
  * Safe to import on the client (type-only import from providers).
  */
@@ -40,7 +40,7 @@ export interface NegotiationInput {
   current?: number;
 }
 
-/** True when the user asked El Pana to step out of the role-play. */
+/** True when the user asked Pana to step out of the role-play. */
 export function wantsCoach(messages: ChatMessage[]): boolean {
   const last = [...messages].reverse().find((m) => m.role === "user");
   return !!last && /coach\s*me/i.test(last.content);
@@ -93,7 +93,7 @@ export function negotiationSystemPrompt(input: NegotiationInput, mode: PracticeM
 - Keep replies short: 2–4 sentences, plain text, no markdown headings.`;
 
   if (mode === "coach") {
-    return `You are El Pana, a warm Miami buddy on Rooted, stepping out of a salary negotiation role-play to coach the user.
+    return `You are Pana, a warm Miami buddy on Rooted, stepping out of a salary negotiation role-play to coach the user.
 
 Read the conversation so far (you played the hiring manager). Give exactly 2–3 concrete, numbered tips on how they did and what to say next, each tied to their numbers below. Quote a better line they could use. Be encouraging and honest. End with: "Say anything to jump back into the practice."
 
@@ -102,7 +102,7 @@ ${facts}
 ${rules}`;
   }
 
-  return `You are El Pana, a warm Miami buddy on Rooted, role-playing a hiring manager so the user can practice negotiating pay. Stay in character as the manager.
+  return `You are Pana, a warm Miami buddy on Rooted, role-playing a hiring manager so the user can practice negotiating pay. Stay in character as the manager.
 
 The manager is friendly but firm: appreciative of the candidate, careful with budget. Push back at least once with a realistic objection ("that's above our band", "we don't negotiate base", "remote pay is set by location"). Concede only when the user gives a data-backed reason, and then only partly, or offer a non-salary lever (sign-on bonus, equity, learning budget, review date). The manager may know the Miami market numbers below but does not volunteer the user's anchor.
 You already opened with: "${openingLine(input.situation)}"

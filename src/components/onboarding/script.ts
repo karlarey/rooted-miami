@@ -2,14 +2,14 @@ import { seniorityLabels, stackLabels, type Seniority, type Stack } from "@/data
 import type { Interest, Neighborhood, Profile } from "@/lib/types";
 
 /**
- * El Pana's scripted onboarding ("character creation").
+ * Pana's scripted onboarding ("character creation").
  * Deliberately not an LLM call: the demo has to work every single time.
  * Each step is one question; each answer can trigger a short reaction.
  */
 
 export type Draft = Partial<Profile>;
 
-/** A line El Pana texts. Functions see the draft *after* the latest answer. */
+/** A line Pana texts. Functions see the draft *after* the latest answer. */
 export type Line = string | ((d: Draft) => string);
 
 export interface Choice {
@@ -152,7 +152,7 @@ export function roleForStack(s: Stack): string {
 export function introLines(name?: string): string[] {
   return [
     `¡Bienvenido a Miami${name ? `, ${name}` : ""}! 👋`,
-    "I'm El Pana, your buddy in the city. (Pana = buddy, ask anyone from PR, Venezuela or the DR.)",
+    "I'm Pana, your buddy in the city. (Pana = buddy, ask anyone from PR, Venezuela or the DR.)",
     "A few quick questions and I'll put together your welcome package. Takes like 3 minutes.",
   ];
 }

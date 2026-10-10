@@ -12,7 +12,7 @@ import { activeProvider, streamReply, type ChatMessage } from "@/lib/pana/provid
 /**
  * POST /api/pana/negotiate
  * Body: { messages: ChatMessage[], stack, seniority, situation, current? }
- * Streams plain text. El Pana plays a hiring manager; if the last user
+ * Streams plain text. Pana plays a hiring manager; if the last user
  * message contains "coach me" it replies as a coach instead.
  * Numbers are recomputed server-side from src/data/pay.ts.
  */
@@ -75,8 +75,8 @@ export async function POST(req: Request) {
           }
         }
       } catch (err) {
-        console.error("El Pana negotiate provider error:", err);
-        controller.enqueue(encoder.encode("\n[El Pana is offline right now. Check the provider settings in .env.local.]"));
+        console.error("Pana negotiate provider error:", err);
+        controller.enqueue(encoder.encode("\n[Pana is offline right now. Check the provider settings in .env.local.]"));
       }
       controller.close();
     },

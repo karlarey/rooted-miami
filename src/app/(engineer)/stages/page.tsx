@@ -24,7 +24,7 @@ const whyReal = [
   {
     emoji: "📈",
     title: "Checked against how you feel",
-    body: "When you grow a stage, El Pana asks five quick questions: intent to stay, life satisfaction, people you can call, belonging, and \"Are you a Miamian?\"",
+    body: "When you grow a stage, Pana asks five quick questions: intent to stay, life satisfaction, people you can call, belonging, and \"Are you a Miamian?\"",
   },
   {
     emoji: "🌲",
@@ -42,7 +42,7 @@ export default function StagesPage() {
   return (
     <main className="mx-auto max-w-2xl px-4 pb-16 pt-6 sm:pt-10">
       <header>
-        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-coral">Your stages</p>
+        <p className="text-xs font-semibold uppercase font-semibold uppercase tracking-widest text-brand">Your stages</p>
         <h1 className="mt-2 text-3xl font-bold leading-tight text-ink sm:text-4xl">From newcomer to Miamian</h1>
         <p className="mt-3 text-base text-muted">
           Seed, Sprout, Rooted, Grove. Four stages, each one a real milestone in making Miami home.
@@ -91,7 +91,7 @@ export default function StagesPage() {
         </p>
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
           {whyReal.map((w) => (
-            <li key={w.title} className="rounded-2xl border border-line bg-surface p-4">
+            <li key={w.title} className="rounded-2xl border border-line bg-surface shadow-card p-4">
               <p className="font-semibold text-ink">
                 <span aria-hidden className="mr-1.5">
                   {w.emoji}
@@ -121,7 +121,7 @@ export default function StagesPage() {
               <details
                 key={id}
                 open={id === level}
-                className="group rounded-2xl border border-line bg-surface [&_summary::-webkit-details-marker]:hidden"
+                className="group rounded-2xl border border-line bg-surface shadow-card [&_summary::-webkit-details-marker]:hidden"
               >
                 <summary className="flex cursor-pointer list-none items-center gap-3 p-4">
                   <span aria-hidden className="text-2xl">
@@ -153,7 +153,7 @@ export default function StagesPage() {
                         <li key={q.id} className="flex items-start gap-3 py-2.5">
                           <span
                             className={`mt-0.5 grid size-5 shrink-0 place-items-center rounded-full border text-xs ${
-                              done ? "border-teal bg-teal text-surface" : "border-line"
+                              done ? "border-leaf bg-leaf text-surface" : "border-line"
                             }`}
                           >
                             {done ? <span aria-hidden>✓</span> : null}
@@ -167,7 +167,7 @@ export default function StagesPage() {
                               <span>
                                 {packageItems[q.item].emoji} {packageItems[q.item].name}
                               </span>
-                              {q.recurring && <span className="text-teal">↻ Weekly ritual</span>}
+                              {q.recurring && <span className="text-leaf">↻ Weekly ritual</span>}
                               <span>{q.neighborhood}</span>
                             </span>
                           </span>
@@ -185,7 +185,7 @@ export default function StagesPage() {
       <div className="mt-12 text-center">
         <Link
           href="/journey"
-          className="inline-block rounded-full bg-coral px-6 py-3 text-sm font-semibold text-surface hover:opacity-90"
+          className="inline-block rounded-full bg-primary px-6 py-3 text-sm font-semibold text-surface hover:opacity-90"
         >
           Back to your side quests
         </Link>

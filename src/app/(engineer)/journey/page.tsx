@@ -34,7 +34,7 @@ export default function JourneyPage() {
     <main className="mx-auto max-w-6xl px-4 py-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="font-mono text-xs tracking-widest text-coral">ROOTED MIAMI</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-brand">Your journey</p>
           <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
             {profile.name}&rsquo;s journey to becoming a Miamian
           </h1>
@@ -43,7 +43,7 @@ export default function JourneyPage() {
           </p>
         </div>
         <nav className="flex gap-3 text-sm">
-          <button onClick={reset} className="text-muted hover:text-coral">
+          <button onClick={reset} className="text-muted hover:text-brand">
             Reset demo
           </button>
         </nav>
@@ -101,9 +101,9 @@ export default function JourneyPage() {
             </section>
           )}
 
-          <section className="rounded-2xl border border-line bg-surface p-4">
+          <section className="rounded-2xl border border-line bg-surface shadow-card p-4">
             <h2 className="text-lg font-semibold">How you&rsquo;re doing</h2>
-            <p className="text-sm text-muted">From your check-ins with El Pana.</p>
+            <p className="text-sm text-muted">From your check-ins with Pana.</p>
             <div className="mt-3">
               <IntentChart checkIns={checkIns} />
             </div>
@@ -116,7 +116,7 @@ export default function JourneyPage() {
               <h2 className="text-lg font-semibold">Completed ({doneQuests.length})</h2>
               <ul className="mt-2 flex flex-wrap gap-2">
                 {doneQuests.map((q) => (
-                  <li key={q.id} className="rounded-full bg-teal-soft px-3 py-1 text-xs text-teal">
+                  <li key={q.id} className="rounded-full bg-leaf-soft px-3 py-1 text-xs text-leaf">
                     ✓ {q.title}
                   </li>
                 ))}
@@ -125,7 +125,7 @@ export default function JourneyPage() {
           )}
         </div>
 
-        <aside className="lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)]">
+        <aside className="lg:sticky lg:top-36 lg:h-[calc(100vh-10.5rem)]">
           <div className="h-[560px] lg:h-full">
             <PanaChat profile={profile} />
           </div>
