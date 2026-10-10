@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useId, useMemo, useState } from "react";
 import { fmt1, fmtPct } from "@/components/dashboard/format";
 import { StatTile } from "@/components/dashboard/StatTile";
@@ -14,7 +15,6 @@ import {
   stackOrder,
   talentSummary,
 } from "@/lib/talent";
-import { PayBenchmarks } from "./PayBenchmarks";
 
 type StackSel = Stack | "all";
 type SenSel = Seniority | "all";
@@ -222,9 +222,12 @@ export function TalentExplorer() {
         </div>
       </div>
 
-      <div className="mt-10">
-        <PayBenchmarks stack={stack === "all" ? "fullstack" : stack} fallback={stack === "all"} />
-      </div>
+      <p className="mt-8 text-sm text-muted">
+        What do these engineers expect to earn?{" "}
+        <Link href="/companies/finder#market-rates" className="font-medium text-ink underline hover:text-coral">
+          See market rates: Miami vs Austin vs NYC
+        </Link>
+      </p>
     </div>
   );
 }
