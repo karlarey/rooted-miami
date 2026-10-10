@@ -20,6 +20,8 @@ export interface PayBenchmark {
   miamiRemote: number;
   /** Annual base salary in USD, same role in New York City, for comparison. */
   nyc: number;
+  /** Annual base salary in USD, same role in Austin: the model city (got expensive, companies came, pay adjusted). */
+  austin: number;
   source: "placeholder" | string;
   sourceUrl?: string;
   asOf?: string;
@@ -65,6 +67,7 @@ export const payBenchmarks: PayBenchmark[] = (Object.keys(stackFactor) as Stack[
       miamiLocal: base,
       miamiRemote: Math.round((base * 1.15) / 1000) * 1000,
       nyc: Math.round((base * 1.3) / 1000) * 1000,
+      austin: Math.round((base * 1.12) / 1000) * 1000,
       source: "placeholder",
     };
   }),

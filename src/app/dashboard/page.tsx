@@ -6,7 +6,9 @@ import { LevelBars } from "@/components/dashboard/LevelBars";
 import { MetricSection } from "@/components/dashboard/MetricSection";
 import { SimulatedBanner } from "@/components/dashboard/SimulatedBanner";
 import { StatTile } from "@/components/dashboard/StatTile";
+import { TalentSignal } from "@/components/dashboard/TalentSignal";
 import { PROGRAM_MONTHS, syntheticMembers } from "@/data/synthetic-members";
+import { talentPool } from "@/data/talent-pool";
 import { dashboardMetrics, VOLUNTEER_HOUR_VALUE } from "@/lib/metrics";
 
 export const metadata: Metadata = {
@@ -161,9 +163,13 @@ export default function DashboardPage() {
         </div>
       </MetricSection>
 
+      {/* Simulated talent pool; later GET /api/talent/aggregates. */}
+      <TalentSignal pool={talentPool} index={5} />
+
       <footer className="mt-12 border-t border-line pt-4 text-xs text-muted">
         All member metrics above are simulated ({d.totalMembers} synthetic members, {d.activeMembers} still in Miami)
-        and computed with the same functions the backend will run on real check-ins. Definitions: docs/metrics.md.
+        and computed with the same functions the backend will run on real check-ins. The talent signal uses a separate
+        simulated pool of {talentPool.length} engineers. Definitions: docs/metrics.md.
       </footer>
     </main>
   );
