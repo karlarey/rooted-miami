@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HomeAccountNav, JourneyButton } from "@/components/home/HomeAccount";
 import { levelOrder, levels, packageItems } from "@/lib/levels";
 import type { PackageItem } from "@/lib/types";
 
@@ -32,9 +33,7 @@ export default function Home() {
             <span className="font-display text-lg font-bold tracking-tight">
               🌱 Rooted <span className="text-lime">Miami</span>
             </span>
-            <Link href="/login" className="rounded-full px-4 py-2 text-sm font-medium text-white/80 hover:text-white">
-              Sign in
-            </Link>
+            <HomeAccountNav />
           </nav>
 
           <p className="mt-16 inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-medium tracking-wide text-lime sm:mt-24">
@@ -57,12 +56,7 @@ export default function Home() {
             >
               Find your roots
             </Link>
-            <Link
-              href="/journey"
-              className="rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold text-white hover:border-white"
-            >
-              See Alex&rsquo;s journey
-            </Link>
+            <JourneyButton className="rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold text-white hover:border-white" />
           </div>
 
           <p className="mt-8 text-sm text-white/60">
