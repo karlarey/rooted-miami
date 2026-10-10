@@ -42,7 +42,10 @@ export default function CompaniesPage() {
           community stay longer, so the team you build here is the team you keep.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href="#request" className="rounded-full bg-coral px-6 py-3 font-semibold text-bg hover:opacity-90">
+          <Link href="/companies/finder" className="rounded-full bg-coral px-6 py-3 font-semibold text-bg hover:opacity-90">
+            Open Talent Finder
+          </Link>
+          <a href="#request" className="rounded-full border border-line px-6 py-3 font-medium text-ink hover:border-coral">
             Request talent
           </a>
           <a href="#talent-map" className="rounded-full border border-line px-6 py-3 font-medium text-ink hover:border-coral">
