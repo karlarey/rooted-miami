@@ -30,6 +30,28 @@ Every newcomer gets a **welcome package**:
 
 Delivered as a **game**: side quests, levels (🌱 Seed → 🌿 Sprout → 🌳 Rooted → 🌲 Grove), and **El Pana**, an AI buddy you can chat or text who shows up *before* you think about leaving.
 
+## Rooted for Business: the company dashboard
+
+`/companies/finder`: companies hire engineers who live in Miami, and pay them enough to stay.
+
+1. **Talent Finder**: a company describes the role in plain language ("fintech in Wynwood, 3 senior backend engineers, hybrid, Go"). **Gemma 4** turns it into search filters and drafts a personal first message. The company reviews its **top 3 candidates**, reaches out, and if nobody replies, clicks **"Pull 3 new"**.
+2. **Fair pay, enforced**: every first message needs a pay band. A live pay check compares it with the Miami market and with **Austin buying-power parity**, the city Miami engineers leave for.
+3. **Market rates**: Miami vs Austin vs NYC by seniority and role family, plus the "offer to compete" number.
+
+Pay numbers never come from the model; Gemma picks people and words, BLS sets the price. Candidates are opt-in only and show just the fields they chose to share.
+
+## Hackathon submission
+
+| | |
+|---|---|
+| **Event** | Hack for Humanity Miami, Oct 10 2026 |
+| **Track** | 03 Brain Gain. Also entering Best Use of Gemma 4 and Best Open-Source AI Project |
+| **AI model** | **Gemma 4** (`gemma-4-26b-a4b-it`, open-weight) via the Gemini API, in Talent Finder (`src/lib/talent-finder.ts`). [Gemma terms of use](https://ai.google.dev/gemma/terms). El Pana supports Gemini, Ollama (local open-weight models) or a mock provider |
+| **Data** | [BLS OEWS May 2025](https://www.bls.gov/oes/tables.htm) wages for the Miami, Austin and NYC metros · [BEA Regional Price Parities 2024](https://www.bea.gov/data/prices-inflation/regional-price-parities-state-and-metro-area) · U.S. Census migration flows (see [data sources](docs/data-sources.md)). Talent pool and community members are **simulated** |
+| **AI tools used to build** | Claude Code |
+| **License** | [MIT](LICENSE) |
+| **Team** | Karla Reyes (add teammates) |
+
 ## Docs
 
 | Doc | What's in it |
@@ -50,5 +72,6 @@ Delivered as a **game**: side quests, levels (🌱 Seed → 🌿 Sprout → 🌳
 ```bash
 npm install
 cp .env.example .env.local   # set PANA_PROVIDER=gemini + GEMINI_API_KEY, or ollama, or leave mock
-npm run dev                  # http://localhost:3000
+                             # Talent Finder: GEMINI_API_KEY + GEMMA_MODEL=gemma-4-26b-a4b-it
+npm run dev                  # http://localhost:3000  ·  company dashboard: /companies/finder
 ```
