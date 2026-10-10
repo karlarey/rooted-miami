@@ -1,4 +1,6 @@
-export type PackageItem = "community" | "purpose" | "identity" | "practical";
+import type { Seniority, Stack } from "@/data/pay";
+
+export type PackageItem = "community" | "purpose" | "identity" | "career" | "practical";
 
 export type LevelId = "seed" | "sprout" | "rooted" | "grove";
 
@@ -63,6 +65,9 @@ export interface Profile {
   missesMost: string;
   weekendHours: number;
   languages: string[];
+  /** Optional: powers career quests and pay benchmarks. */
+  stack?: Stack;
+  seniority?: Seniority;
   completedQuests: string[];
 }
 

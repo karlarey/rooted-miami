@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #fdf6ef;
+  --surface: #ffffff;
+  --surface-2: #fbe9dc;
+  --ink: #1f1a17;
+  --muted: #6b5f57;
+  --line: #ecdccf;
+  --coral: #e8572a;
+  --coral-soft: #fde0d3;
+  --teal: #0f8b8d;
+  --teal-soft: #d4efee;
+  --gold: #e9a23b;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #14110f;
+    --surface: #1d1916;
+    --surface-2: #2a211c;
+    --ink: #f5ece4;
+    --muted: #b3a59a;
+    --line: #3a2f28;
+    --coral: #ff7a4d;
+    --coral-soft: #3d2219;
+    --teal: #35c2c4;
+    --teal-soft: #13302f;
+    --gold: #f2b65a;
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-coral: var(--coral);
+  --color-coral-soft: var(--coral-soft);
+  --color-teal: var(--teal);
+  --color-teal-soft: var(--teal-soft);
+  --color-gold: var(--gold);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
