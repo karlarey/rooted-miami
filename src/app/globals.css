@@ -67,7 +67,53 @@
   }
 }
 
+/* Talent Finder portal tokens (docs/brand.md). Kept as aliases so the portal follows the brand in both themes. */
+:root {
+  --rb-bg: #f8f6ef;
+  --rb-surface: #ffffff;
+  --rb-ink: #183d32;
+  --rb-muted: #557166;
+  --rb-line: #e2e7df;
+  --rb-primary: #183d32;
+  --rb-on-primary: #ffffff;
+  --rb-lime: #d9f36a;
+  --rb-on-lime: #183d32;
+  --rb-sage: #86b5ab;
+  --rb-sage-soft: #e4efec;
+  --rb-coral: #ff806b;
+  --rb-coral-soft: #ffe6e1;
+  --rb-shadow: 0 8px 28px rgba(24, 61, 50, 0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --rb-bg: #0f241d;
+    --rb-surface: #183d32;
+    --rb-ink: #f8f6ef;
+    --rb-muted: #a9c4ba;
+    --rb-line: #2c5446;
+    --rb-primary: #d9f36a;
+    --rb-on-primary: #183d32;
+    --rb-sage-soft: #1f4a3e;
+    --rb-coral-soft: #4a2a24;
+    --rb-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  }
+}
+
 @theme inline {
+  --color-rb-bg: var(--rb-bg);
+  --color-rb-surface: var(--rb-surface);
+  --color-rb-ink: var(--rb-ink);
+  --color-rb-muted: var(--rb-muted);
+  --color-rb-line: var(--rb-line);
+  --color-rb-primary: var(--rb-primary);
+  --color-rb-on-primary: var(--rb-on-primary);
+  --color-rb-lime: var(--rb-lime);
+  --color-rb-on-lime: var(--rb-on-lime);
+  --color-rb-sage: var(--rb-sage);
+  --color-rb-sage-soft: var(--rb-sage-soft);
+  --color-rb-coral: var(--rb-coral);
+  --color-rb-coral-soft: var(--rb-coral-soft);
+  --font-ui: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
