@@ -67,3 +67,36 @@ export const userData = sqliteTable("user_data", {
   roles: text("roles", { mode: "json" }).$type<Role[]>(),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
 });
+
+/* Company → engineer messaging (docs/messaging-contract.md). engineerId is
+   "user:<id>" for real accounts, or a simulated member's id. */
+
+export const opportunity = sqliteTable("opportunity", {
+  id: text("id").primaryKey(),
+  companyId: text("company_id").notNull(),
+  companyName: text("company_name").notNull(),
+  engineerId: text("engineer_id").notNull(),
+  engineerHeadline: text("engineer_headline").notNull(),
+  role: text("role").notNull(),
+  stack: text("stack").notNull(),
+  seniority: text("seniority").notNull(),
+  payMin: integer("pay_min").notNull(),
+  payMax: integer("pay_max").notNull(),
+  workMode: text("work_mode").notNull(),
+  neighborhood: text("neighborhood"),
+  message: text("message").notNull(),
+  status: text("status").notNull(),
+  payRisk: text("pay_risk"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+});
+
+/** The direct thread that opens once the engineer replies. */
+export const threadMessage = sqliteTable("thread_message", {
+  id: text("id").primaryKey(),
+  opportunityId: text("opportunity_id")
+    .notNull()
+    .references(() => opportunity.id, { onDelete: "cascade" }),
+  from: text("from_side").notNull(),
+  body: text("body").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+});
