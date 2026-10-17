@@ -12,6 +12,24 @@ export function IntentChart({ checkIns }: { checkIns: CheckIn[] }) {
   const points = checkIns.map((c) => `${x(c.month)},${y(c.intentToStay)}`).join(" ");
   const first = checkIns[0];
   const last = checkIns.at(-1)!;
+  const stats = (
+    <>
+      People outside work: <strong className="text-ink">{last.peopleOutsideWork}</strong> · {city.demonym}?{" "}
+      <strong className="text-ink">{{ yes: "Yes", "not-yet": "Not yet", no: "No" }[last.miamian]}</strong>
+    </>
+  );
+
+  // One point is not a trend: show the numbers until there's a second check-in.
+  if (checkIns.length < 2) {
+    return (
+      <div className="text-sm text-muted">
+        <p>
+          Intent to stay: <strong className="text-ink">{last.intentToStay}</strong> / 10 · {stats}
+        </p>
+        <p className="mt-1 text-xs">Your trend shows up here after your next check-in.</p>
+      </div>
+    );
+  }
 
   return (
     <figure>
@@ -36,9 +54,7 @@ export function IntentChart({ checkIns }: { checkIns: CheckIn[] }) {
       </svg>
       <figcaption className="mt-1 text-xs text-muted">
         Intent to stay: <strong className="text-ink">{first.intentToStay}</strong> →{" "}
-        <strong className="text-brand">{last.intentToStay}</strong> / 10 · People outside work:{" "}
-        <strong className="text-ink">{last.peopleOutsideWork}</strong> · {city.demonym}?{" "}
-        <strong className="text-ink">{{ yes: "Yes", "not-yet": "Not yet", no: "No" }[last.miamian]}</strong>
+        <strong className="text-brand">{last.intentToStay}</strong> / 10 · {stats}
       </figcaption>
     </figure>
   );

@@ -1,16 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo } from "react";
 import { IntentChart } from "@/components/journey/IntentChart";
-import { LikeMinded } from "@/components/journey/LikeMinded";
 import { NearbyEngineers } from "@/components/journey/NearbyEngineers";
-import { PayCard } from "@/components/journey/PayCard";
 import { QuestCard } from "@/components/journey/QuestCard";
 import { PanaChat } from "@/components/pana/PanaChat";
 import { LevelPath } from "@/components/stages/LevelPath";
 import { LevelUpCelebration } from "@/components/stages/LevelUpCelebration";
 import { useLevelUp } from "@/components/stages/useLevelUp";
 import { quests } from "@/data/quests";
+import { likeMinded } from "@/lib/like-minded";
 import { recommend, welcomePackage } from "@/lib/recommend";
 import { useJourney } from "@/lib/use-journey";
 
@@ -20,11 +20,22 @@ export default function JourneyPage() {
   const { celebrating, dismiss } = useLevelUp(level, ready);
 
   const pkg = useMemo(() => welcomePackage(profile, level), [profile, level]);
-  const more = useMemo(
-    () => recommend(profile, level, 8).filter((r) => !pkg.some((p) => p.quest.id === r.quest.id)).slice(0, 4),
-    [profile, level, pkg],
-  );
-  const acceptedQuests = quests.filter((q) => accepted.includes(q.id));
+  // Each quest shows up once: welcome package first, then "people like you", then the rest.
+  const more = useMemo(() => {
+    const shown = new Set(pkg.map((p) => p.quest.id));
+    const peers = likeMinded(profile).map((p) => ({ quest: p.quest, reasons: [p.reason] }));
+    const picks: { quest: (typeof quests)[number]; reasons: string[] }[] = [];
+    for (const r of [...peers, ...recommend(profile, level, 8)]) {
+      if (shown.has(r.quest.id) || profile.completedQuests.includes(r.quest.id)) continue;
+      shown.add(r.quest.id);
+      picks.push(r);
+    }
+    return picks.slice(0, 4);
+  }, [profile, level, pkg]);
+  const inPackage = new Set(pkg.map((p) => p.quest.id));
+  const shownBelow = new Set(more.map((m) => m.quest.id));
+  // Accepted quests already visible further down keep their card there.
+  const acceptedQuests = quests.filter((q) => accepted.includes(q.id) && !inPackage.has(q.id) && !shownBelow.has(q.id));
   const doneQuests = quests.filter((q) => profile.completedQuests.includes(q.id));
 
   if (!ready) return <main className="p-8 text-muted">Loading your journey…</main>;
@@ -87,11 +98,10 @@ export default function JourneyPage() {
 
           <NearbyEngineers profile={profile} />
 
-          <LikeMinded profile={profile} status={status} onAccept={accept} onComplete={complete} />
-
           {more.length > 0 && (
             <section>
               <h2 className="text-lg font-semibold">More side quests for you</h2>
+              <p className="text-sm text-muted">Including what engineers like you who stayed in Miami did (simulated members).</p>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 {more.map(({ quest, reasons }) => (
                   <QuestCard
@@ -107,28 +117,31 @@ export default function JourneyPage() {
             </section>
           )}
 
-          <section className="rounded-2xl border border-line bg-surface shadow-card p-4">
+          <section className="rounded-2xl border border-line bg-surface p-4 shadow-card">
             <h2 className="text-lg font-semibold">How you&rsquo;re doing</h2>
             <p className="text-sm text-muted">From your check-ins with Pana.</p>
             <div className="mt-3">
               <IntentChart checkIns={checkIns} />
             </div>
+            {doneQuests.length > 0 && (
+              <>
+                <h3 className="mt-4 text-sm font-semibold">Completed ({doneQuests.length})</h3>
+                <ul className="mt-2 flex flex-wrap gap-2">
+                  {doneQuests.map((q) => (
+                    <li key={q.id} className="rounded-full bg-leaf-soft px-3 py-1 text-xs text-leaf">
+                      ✓ {q.title}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            <p className="mt-4 text-sm">
+              💼 Wondering what you should earn here?{" "}
+              <Link href="/negotiate" className="font-medium text-brand underline">
+                Know your number
+              </Link>
+            </p>
           </section>
-
-          <PayCard profile={profile} />
-
-          {doneQuests.length > 0 && (
-            <section>
-              <h2 className="text-lg font-semibold">Completed ({doneQuests.length})</h2>
-              <ul className="mt-2 flex flex-wrap gap-2">
-                {doneQuests.map((q) => (
-                  <li key={q.id} className="rounded-full bg-leaf-soft px-3 py-1 text-xs text-leaf">
-                    ✓ {q.title}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
         </div>
 
         <aside className="lg:sticky lg:top-36 lg:h-[calc(100vh-10.5rem)]">
